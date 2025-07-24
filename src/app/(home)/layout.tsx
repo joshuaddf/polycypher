@@ -1,3 +1,4 @@
+import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 
 export default function HomeLayout({
@@ -6,11 +7,10 @@ export default function HomeLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="max-w-[1440px] mx-auto p-4">
+        <div className="">
             <Navbar />
-            <div className="">
             {children}
-            </div>
+            <Footer />
         </div>
     );
 }
