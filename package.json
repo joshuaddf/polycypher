@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@kinde-oss/kinde-auth-nextjs": "^2.8.5",
     "gsap": "^3.13.0",
+    "lucide": "^0.525.0",
     "motion": "^12.23.9",
     "next": "15.4.2",
     "react": "19.1.0",
