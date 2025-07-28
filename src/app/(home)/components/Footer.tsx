@@ -1,6 +1,6 @@
 import { Button } from '@/app/components/Button'
 import Link from 'next/link'
-import { NavbarWrapper } from './Wrapper'
+import { NavbarWrapper } from '../../components/Wrapper'
 
 const Navbar = () => {
     return (

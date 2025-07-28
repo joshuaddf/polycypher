@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '../components/Button';
-import { SecurityInfo } from './utils/data';
-import { ContentWrapper } from './components/Wrapper';
+import { howItWorks, SecurityInfo } from '../utils/data';
+import { ContentWrapper } from '../components/Wrapper';
 
 export default function Home() {
   return (
@@ -15,10 +15,10 @@ export default function Home() {
               <span className='text-sm'>PCOS insights at your fingertips.</span>
             </div>
             <h1 className="text-5xl lg:text-6xl md:w-[47%] text-center font-black">
-              Random ipsum coolr Lorem ipsum dolor sit.
+              Early PCOS Detection Made Simple.
             </h1>
             <p className="text-center w-[85%] pt-4 md:w-[50%] lg:w-1/3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Temporibus, quos.
+              Get personalized insights about PCOS risk through our comprehensive assessment tool. Take control of your reproductive health with evidence-based predictions.
             </p>
           </div>
         </ContentWrapper>
@@ -43,16 +43,18 @@ export default function Home() {
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
             <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[47%] text-left font-black">About this project.</h2>
-              <p className="text-left w-[85%] py-4 md:w-[50%] lg:w-1/3 text-xl">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque fuga eos, accusamus quisquam porro eligendi quod repellendus illo repudiandae esse?
+              <h2 className="text-3xl md:text-4xl lg:text-5xl md:w-[47%] text-left font-black">About this project.</h2>
+              <p className="text-left w-[85%] md:w-[50%] lg:w-1/3 text-base opacity-65">
+                Developed in collaboration with reproductive health specialists, our platform combines clinical expertise with machine learning to help women identify PCOS symptoms early and seek appropriate medical care.
               </p>
             </div>
           </div>
         </ContentWrapper>
       </section>
 
-      <div className="flex items-center justify-center mt-[10rem] text-black md:mt-[15rem] text-4xl md:text-5xl">Something random.</div>
+      <div className="flex flex-col items-center justify-center mt-[10rem] max-w-3/5 mx-auto text-black md:mt-[20rem] text-3xl font-black md:text-5xl">
+        <p className='text-center'>1 in 10 women have PCOS. Are you one of them? Early detection changes everything.</p>
+      </div>
 
       <section>
         <ContentWrapper className="w-full mt-[10rem] md:mt-[25rem]">
@@ -60,9 +62,19 @@ export default function Home() {
             <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
               <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[47%] text-left font-black">How it works.</h2>
-              <p className="text-left w-[85%] py-4 md:w-[50%] lg:w-1/3 text-xl">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque fuga eos, accusamus quisquam porro eligendi quod repellendus illo repudiandae esse?
-              </p>
+              <div className="text-left w-[85%] py-4 md:w-[50%] lg:w-1/3 text-xl">
+                {howItWorks.map((item, index) => (
+                  <div key={index} className="flex flex-col items-center justify-center pb-5">
+                    <div className=" flex flex-col items-start justify-center w-full mx-auto">
+                      <div className="flex gap-2">
+                        <span>({index + 1})</span>
+                        <h2 className='text-lg font-bold'>{item.title}</h2>
+                      </div>
+                      <p className=" w-[85%] lg:w-full py-1 md:w-[50%] text-base opacity-65">{item.description}.</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </ContentWrapper>
@@ -71,8 +83,8 @@ export default function Home() {
       <section>
         <ContentWrapper className='w-full mx-auto flex flex-col items-start justify-center gap-4 mt-[5rem] md:mt-[15rem]'>
           <div className="">
-            <h2 className='text-[8rem]'>80%</h2>
-            <p className=' md:w-[50%] text-xl'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem Lorem ipsum dolor sit amet consectetur, adipisicing elit. </p>
+            <h2 className='text-[8rem]'>85%</h2>
+            <p className=' md:w-[50%] text-base md:text-lg opacity-65'>Clinical accuracy rate in identifying PCOS risk factors based on validation studies.</p>
           </div>
         </ContentWrapper>
       </section>
@@ -81,16 +93,16 @@ export default function Home() {
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
             <h2 className='text-4xl md:text-5xl lg:text-6xl'>Feeling skeptical?</h2>
-            <p className='text-xl md:w-[50%] lg:w-1/3 text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem</p>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-65'>Our assessment is based on peer-reviewed research and validated clinical criteria used by healthcare professionals worldwide.</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+          {/* <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
             <div className="w-full md:w-1/2 h-[30rem] bg-white"></div>
             <div className="w-full md:w-1/2 h-[30rem] bg-white"></div>
-          </div>
+          </div> */}
         </ContentWrapper>
       </section>
 
-     <section>
+      <section>
         <ContentWrapper className="flex flex-col items-start justify-center gap-4 my-[8rem] md:my-[12rem] lg:my-[15rem]">
           <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[50%] text-left font-black">
             Built with strong security and Privacy.
