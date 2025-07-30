@@ -1,6 +1,8 @@
-import { Button } from '@/app/components/Button'
+// import { Button } from '@/app/components/Button'
 import Link from 'next/link'
 import { NavbarWrapper } from '../../components/Wrapper'
+import { ModeToggle } from '@/components/ModeToggle'
+import { Button } from '@/components/ui/button'
 
 const Navbar = () => {
     return (
@@ -12,11 +14,11 @@ const Navbar = () => {
                     </span>
                     <span className='hidden md:px-20 lg:px-32 md:block'>|</span>
                     <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">
-                       <span>Empowering PCOS Insights,</span>
-                       <span className='opacity-30'>always at your fingertips.</span>
+                        <span>Empowering PCOS Insights,</span>
+                        <span className='opacity-50'>always at your fingertips.</span>
                     </div>
                 </div>
-                <Button>Get Started</Button>
+                    <Button size={'sm'}>Get started</Button>
             </NavbarWrapper>
         </nav>
     )

@@ -2,6 +2,7 @@
 import { Button } from '../components/Button';
 import { howItWorks, SecurityInfo } from '../utils/data';
 import { ContentWrapper } from '../components/Wrapper';
+import { Lock } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center h-[calc(100dvh-4rem)]">
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
-            <div className="flex items-center gap-2 opacity-60">
+            <div className="flex items-center gap-2 opacity-50">
               <span>Logo</span>
               <span className="px-5">|</span>
               <span className='text-sm'>PCOS insights at your fingertips.</span>
@@ -17,7 +18,7 @@ export default function Home() {
             <h1 className="text-5xl lg:text-6xl md:w-[47%] text-center font-black">
               Early PCOS Detection Made Simple.
             </h1>
-            <p className="text-center w-[85%] pt-4 md:w-[50%] lg:w-1/3">
+            <p className="text-center w-[85%] md:w-[50%] lg:w-1/3">
               Get personalized insights about PCOS risk through our comprehensive assessment tool. Take control of your reproductive health with evidence-based predictions.
             </p>
           </div>
@@ -28,18 +29,18 @@ export default function Home() {
         <ContentWrapper className="w-full mt-[10rem]">
           <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
           <div className="flex flex-col items-center justify-center gap-4 mt-[15rem]">
-            <h1 className="text-4xl lg:text-6xl md:w-[47%] text-center font-black">
-              Random ipsum coolr Lorem ipsum dolor sit.
+            <h1 className="text-4xl lg:text-5xl md:w-[47%] text-center font-black">
+              Understand Your PCOS Risk Today.
             </h1>
-            <p className="text-center w-[85%] pt-4 md:w-[50%] lg:w-1/3 text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Temporibus, quos.
+            <p className="text-center text-base w-[85%] md:w-[50%] lg:w-1/3 opacity-50">
+              Our platform uses advanced analytics to assess your symptoms and provide clear, actionable insights to manage PCOS effectively.
             </p>
           </div>
         </ContentWrapper>
       </section>
 
       <section>
-        <ContentWrapper className="w-full mt-[25rem]">
+        <ContentWrapper className="w-full mt-[15rem]">
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
             <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
@@ -52,9 +53,11 @@ export default function Home() {
         </ContentWrapper>
       </section>
 
-      <div className="flex flex-col items-center justify-center mt-[10rem] max-w-3/5 mx-auto text-black md:mt-[20rem] text-3xl font-black md:text-5xl">
-        <p className='text-center'>1 in 10 women have PCOS. Are you one of them? Early detection changes everything.</p>
-      </div>
+      <ContentWrapper>
+        <div className="flex flex-col items-center justify-center mt-[10rem] lg:max-w-3/5 mx-auto  md:mt-[20rem] text-2xl font-black md:text-4xl">
+          <p className='text-center'>1 in 10 women have PCOS. <br /> Are you one of them? Early detection changes everything.</p>
+        </div>
+      </ContentWrapper>
 
       <section>
         <ContentWrapper className="w-full mt-[10rem] md:mt-[25rem]">
@@ -95,29 +98,31 @@ export default function Home() {
             <h2 className='text-4xl md:text-5xl lg:text-6xl'>Feeling skeptical?</h2>
             <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-65'>Our assessment is based on peer-reviewed research and validated clinical criteria used by healthcare professionals worldwide.</p>
           </div>
-          {/* <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
-            <div className="w-full md:w-1/2 h-[30rem] bg-white"></div>
-            <div className="w-full md:w-1/2 h-[30rem] bg-white"></div>
-          </div> */}
         </ContentWrapper>
       </section>
 
       <section>
         <ContentWrapper className="flex flex-col items-start justify-center gap-4 my-[8rem] md:my-[12rem] lg:my-[15rem]">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[50%] text-left font-black">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[50%] text-left font-black mb-10">
             Built with strong security and Privacy.
           </h2>
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 relative">
             {SecurityInfo.map((info, index) => (
               <div
                 key={index}
-                className="flex flex-col items-start min-h-[20rem] justify-start bg-white w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.75rem)] p-4 rounded-lg overflow-hidden"
+                className="flex flex-col items-start min-h-[10rem] border-[1px] justify-start  w-full p-7 rounded-sm"
               >
-                <span className="pt-10 w-8 h-8 flex items-center justify-center">Icon</span>
-                <h3 className="text-2xl md:text-3xl py-5 font-semibold md:w-2/3 ">{info.title}</h3>
-                <p className="text-lg md:text-lg md:w-2/3 opacity-45 line-clamp-3">{info.description}</p>
+                <div className="flex gap-2 items-center justify-center">
+                  <span className=" flex items-center justify-center">{info.icon}</span>
+                  <span className='text-sm opacity-50'>{info.caption}</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl py-5 font-bold md:w-2/3">{info.title}</h3>
+                <p className="text-base w-full opacity-55">{info.description}</p>
               </div>
             ))}
+            <div className="hidden md:flex absolute top-[49.5%] left-1/2 -translate-x-1/2 -translate-y-1/2  items-center justify-center ">
+              <span className='size-4 flex items-center justify-center text-3xl font-light'>+</span>
+            </div>
           </div>
         </ContentWrapper>
       </section>
