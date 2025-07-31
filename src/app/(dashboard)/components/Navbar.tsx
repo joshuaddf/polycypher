@@ -4,10 +4,20 @@ import { NavbarWrapper } from '@/app/components/Wrapper'
 import Link from 'next/link'
 import MobileMenu from './MobileMenu'
 import { useState } from 'react'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
-const Navbar = () => {
+interface NavbarProps {
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
+
+}
+
+const Navbar = ({ firstName, lastName, profilePicture }: NavbarProps) => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -24,13 +34,21 @@ const Navbar = () => {
                     <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">
                         {
                             dashBoardNavLinks.map((link, index) => (
-                                <Link key={index} href={link.href} className='text-base'>{link.title}</Link>
+                                <Link key={index} href={link.href} className={` ${pathname === link.href ? "opacity-50  duration-300" : "text-foreground transition-all duration-300"}`}>{link.title}</Link>
                             ))
                         }
                     </div>
                 </div>
                 <div className="flex items-center justify-between gap-5">
-                    <div className="">Profile</div>
+                    {/* <div className="w-full">
+                        <Image
+                        src={profilePicture}
+                        alt={firstName}
+                        width={40}
+                        height={40}
+                        />
+                    </div> */}
+                    <div className="bg-accent px-6 py-2 rounded-sm">{firstName} {lastName}</div>
                     <div className="flex md:hidden">
                         <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
                     </div>

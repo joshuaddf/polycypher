@@ -1,8 +1,8 @@
-// import { Button } from '@/app/components/Button'
+"use client"
 import Link from 'next/link'
 import { NavbarWrapper } from '../../components/Wrapper'
-import { ModeToggle } from '@/components/ModeToggle'
 import { Button } from '@/components/ui/button'
+import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components'
 
 const Navbar = () => {
     return (
@@ -18,7 +18,9 @@ const Navbar = () => {
                         <span className='opacity-50'>always at your fingertips.</span>
                     </div>
                 </div>
-                    <Button size={'sm'}>Get started</Button>
+                    <Button size={'sm'}>
+                        <RegisterLink>Get started</RegisterLink>
+                    </Button>
             </NavbarWrapper>
         </nav>
     )

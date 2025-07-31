@@ -1,8 +1,6 @@
 'use client';
-import { Button } from '../components/Button';
 import { howItWorks, SecurityInfo } from '../utils/data';
 import { ContentWrapper } from '../components/Wrapper';
-import { Lock } from 'lucide-react';
 
 export default function Home() {
   return (
