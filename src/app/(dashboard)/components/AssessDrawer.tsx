@@ -10,13 +10,14 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+import { Plus } from "lucide-react"
 
 const AssessDrawer = () => {
     return (
         <div>
 
             <Drawer>
-                <DrawerTrigger>Open</DrawerTrigger>
+                <DrawerTrigger className="bg-foreground text-background px-3 py-1 rounded-sm flex gap-2 items-center"><Plus size={17} />Assess</DrawerTrigger>
                 <DrawerContent>
                     <ContentWrapper className="max-w-sm">
                         <DrawerHeader>
@@ -25,7 +26,9 @@ const AssessDrawer = () => {
                         </DrawerHeader>
                         <DrawerFooter>
                             <Button>Submit</Button>
+                            <DrawerClose asChild>
                                 <Button variant="outline">Cancel</Button>
+                            </DrawerClose>
                         </DrawerFooter>
                     </ContentWrapper>
                 </DrawerContent>

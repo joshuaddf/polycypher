@@ -6,6 +6,8 @@ import MobileMenu from './MobileMenu'
 import { useState } from 'react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import NavDropdownMenu from './NavDropdownMenu'
+
 
 interface NavbarProps {
     firstName: string;
@@ -48,7 +50,8 @@ const Navbar = ({ firstName, lastName, profilePicture }: NavbarProps) => {
                         height={40}
                         />
                     </div> */}
-                    <div className="bg-accent px-6 py-2 rounded-sm">{firstName} {lastName}</div>
+                    {/* <div className="bg-accent px-6 py-2 rounded-sm">{firstName} {lastName}</div> */}
+                    <NavDropdownMenu />
                     <div className="flex md:hidden">
                         <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
                     </div>
