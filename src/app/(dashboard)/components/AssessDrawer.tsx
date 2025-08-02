@@ -17,7 +17,8 @@ const AssessDrawer = () => {
         <div>
 
             <Drawer>
-                <DrawerTrigger className="bg-foreground text-background px-3 py-1 rounded-sm flex gap-2 items-center"><Plus size={17} />Assess</DrawerTrigger>
+                <DrawerTrigger className="bg-foreground text-background px-3 py-1 rounded-sm  gap-2 items-center hidden md:flex"><Plus size={17} />Assess</DrawerTrigger>
+                <DrawerTrigger className="bg-foreground text-background px-3 py-1 rounded-sm  gap-2 items-center flex text-sm md:text-base md:hidden"><Plus size={17} />Assess</DrawerTrigger>
                 <DrawerContent>
                     <ContentWrapper className="max-w-sm">
                         <DrawerHeader>

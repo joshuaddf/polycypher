@@ -1,92 +1,104 @@
+"use client"
+
 import { ContentWrapper } from "@/app/components/Wrapper"
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
+import { ChartBarDefault } from "../../components/ChartBarDefault"
+import { ChartRadialStacked } from "../../components/RadialChart"
 
 const page = () => {
-
-  const invoices = [
+  const pcosData = [
     {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
+      patientId: "PCOS001",
+      symptomSeverity: "Moderate",
+      diagnosisStatus: "Confirmed",
+      hormoneLevel: "5.2",
     },
     {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
+      patientId: "PCOS002",
+      symptomSeverity: "Mild",
+      diagnosisStatus: "Pending",
+      hormoneLevel: "3.8",
     },
     {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
+      patientId: "PCOS003",
+      symptomSeverity: "Severe",
+      diagnosisStatus: "Negative",
+      hormoneLevel: "6.7",
     },
     {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
+      patientId: "PCOS004",
+      symptomSeverity: "Moderate",
+      diagnosisStatus: "Confirmed",
+      hormoneLevel: "4.9",
     },
     {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
+      patientId: "PCOS005",
+      symptomSeverity: "Mild",
+      diagnosisStatus: "Confirmed",
+      hormoneLevel: "4.1",
     },
     {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
+      patientId: "PCOS006",
+      symptomSeverity: "Severe",
+      diagnosisStatus: "Pending",
+      hormoneLevel: "7.3",
     },
     {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
+      patientId: "PCOS007",
+      symptomSeverity: "Moderate",
+      diagnosisStatus: "Negative",
+      hormoneLevel: "5.5",
     },
   ]
 
-
   return (
-    <section className="pt-10">
-      <ContentWrapper className="max-w-[1440px] border-[1px] bg-accent/20 p-6 rounded-2xl">
-        <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
-          <TableHeader>
-            <TableRow className={cn("px-10")}>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody className={cn("px-10")} >
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice} className={cn("h-14")}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ContentWrapper>
+    <>
+      <section className="pt-10">
+        <ContentWrapper className="max-w-[1440px] border-[1px] rounded-2xl p-4">
+          <div className="grid grid-cols-1 md:grid-rows-2 lg:grid-cols-2 lg:grid-rows-1 gap-3">
+            <div className="border-2 rounded-2xl">
+              <Table className=" bg-accent/20 rounded-2xl">
+                <TableCaption>A list of recent PCOS patient records.</TableCaption>
+                <TableHeader>
+                  <TableRow className={cn("px-10")}>
+                    <TableHead className="">Patient ID</TableHead>
+                    <TableHead>Symptom Severity</TableHead>
+                    <TableHead>Diagnosis Status</TableHead>
+                    <TableHead className="text-right">Hormone Level (ng/mL)</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className={cn("px-10")}>
+                  {pcosData.map((record) => (
+                    <TableRow key={record.patientId} className={cn("h-14")}>
+                      <TableCell className="font-medium">{record.patientId}</TableCell>
+                      <TableCell>{record.symptomSeverity}</TableCell>
+                      <TableCell>{record.diagnosisStatus}</TableCell>
+                      <TableCell className="text-right">{record.hormoneLevel}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
 
-    </section>
+            </div>
+            <div className="flex md:flex-row flex-col gap-6">
+              <ChartBarDefault />
+              <ChartRadialStacked />
+            </div>
+          </div>
+        </ContentWrapper>
+      </section>
+
+    </>
   )
 }
 

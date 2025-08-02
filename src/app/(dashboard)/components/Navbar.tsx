@@ -7,16 +7,15 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import NavDropdownMenu from './NavDropdownMenu'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 
-interface NavbarProps {
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
+// interface NavbarProps {
+//     firstName: string;
+//     lastName: string;
+// }
 
-}
-
-const Navbar = ({ firstName, lastName, profilePicture }: NavbarProps) => {
+const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
@@ -24,6 +23,9 @@ const Navbar = ({ firstName, lastName, profilePicture }: NavbarProps) => {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const { getUser } = useKindeBrowserClient();
+    const user = getUser();
 
     return (
         <nav className='flex justify-between items-center z-50 relative h-[4rem] w-full'>
@@ -36,22 +38,17 @@ const Navbar = ({ firstName, lastName, profilePicture }: NavbarProps) => {
                     <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">
                         {
                             dashBoardNavLinks.map((link, index) => (
-                                <Link key={index} href={link.href} className={` ${pathname === link.href ? "opacity-50  duration-300" : "text-foreground transition-all duration-300"}`}>{link.title}</Link>
+                                <div key={index} className='relative group'>    
+                                    <Link href={link.href} className={`${pathname === link.href ? "opacity-50  duration-300" : "text-foreground transition-all duration-300"}`}>{link.title}
+                                        <span className='w-0 group-hover:w-full transition-all duration-300 bg-foreground h-0.5 absolute left-0 bottom-0' />
+                                    </Link>
+                                </div>
                             ))
                         }
                     </div>
                 </div>
                 <div className="flex items-center justify-between gap-5">
-                    {/* <div className="w-full">
-                        <Image
-                        src={profilePicture}
-                        alt={firstName}
-                        width={40}
-                        height={40}
-                        />
-                    </div> */}
-                    {/* <div className="bg-accent px-6 py-2 rounded-sm">{firstName} {lastName}</div> */}
-                    <NavDropdownMenu />
+                        <NavDropdownMenu />
                     <div className="flex md:hidden">
                         <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
                     </div>
