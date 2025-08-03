@@ -1,8 +1,33 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export default function middleware(req: NextRequest) {
-  return withAuth(req);
+  return withAuth(req, {
+    // Add custom logic after authentication
+    afterAuth: async (req: NextRequest, token: any) => {
+      // If user is authenticated, sync them to database
+      if (token?.user) {
+        try {
+          // Call the user sync API
+          const syncResponse = await fetch(`${req.nextUrl.origin}/api/auth/sync-user`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: token.user.id }),
+          });
+          
+          if (!syncResponse.ok) {
+            console.error('Failed to sync user to database');
+          }
+        } catch (error) {
+          console.error('Error syncing user:', error);
+        }
+      }
+      
+      return NextResponse.next();
+    }
+  });
 }
 
 export const config = {

@@ -9,12 +9,6 @@ import { usePathname } from 'next/navigation'
 import NavDropdownMenu from './NavDropdownMenu'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
-
-// interface NavbarProps {
-//     firstName: string;
-//     lastName: string;
-// }
-
 const Navbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
