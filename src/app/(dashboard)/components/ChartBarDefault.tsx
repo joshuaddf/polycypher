@@ -38,7 +38,7 @@ const chartConfig = {
 
 export function ChartBarDefault() {
   return (
-    <Card className="min-w-[350px]">
+    <Card className="min-w-[300px]">
       <CardHeader>
         <CardTitle>PCOS Diagnoses</CardTitle>
         <CardDescription>January - June 2025</CardDescription>

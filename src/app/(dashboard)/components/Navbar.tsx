@@ -47,9 +47,9 @@ const Navbar = () => {
                         }
                     </div>
                 </div>
-                <div className="flex items-center justify-between gap-5">
+                <div className="flex items-center justify-center gap-3 md:gap-5">
                         <NavDropdownMenu />
-                    <div className="flex md:hidden">
+                    <div className="flex items-center justify-center md:hidden">
                         <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
                     </div>
                 </div>
