@@ -1,12 +1,14 @@
 "use client"
-import { ChevronRight, Activity, Calendar, Target, TrendingUp, Heart, AlertCircle } from "lucide-react";
+import { ChevronRight, Activity, Calendar, Target, TrendingUp, Heart, AlertCircle, Slice } from "lucide-react";
 import AssessDrawer from "./AssessDrawer";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { usePathname } from "next/navigation";
 
 const DashboardNav = () => {
 
     const {getUser} = useKindeBrowserClient();
     const user = getUser();
+    const pathname = usePathname();
 
   // Updated mock user data
   const userData = {
@@ -24,7 +26,7 @@ const DashboardNav = () => {
         <div className="items-center gap-2 text-sm text-muted-foreground hidden md:flex">
           <span>Dashboard</span>
           <ChevronRight size={16} />
-          <span>Overview & Tracking</span>
+          <span>{pathname.slice(11, 18)}</span>
         </div>
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
           <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold">Welcome back, {userData.name} 🌿</h1>

@@ -11,11 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { ChevronRight } from "lucide-react"
 import { ChartBarDefault } from "../../components/ChartBarDefault"
 import { ChartRadialStacked } from "../../components/RadialChart"
 
 const page = () => {
+
   const personalAssessments = [
     {
       date: "2024-01-15",

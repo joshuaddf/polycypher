@@ -17,15 +17,14 @@ export async function GET() {
     });
 
     if (!dbUser) {
-        dbUser = await prisma.user.create({
-            data: {
-                kindeId: user.id,
-                email: user.email ?? "",
-                firstName: user.given_name ?? "",
-                lastName: user.family_name ?? "",
-                profilePicture: user.picture ?? ""
-            }
-        })
+     dbUser = await prisma.user.create({
+        data: {
+            kindeId: user.id,
+            firstName: user.given_name ?? "",
+            lastName: user.family_name ?? "",
+            email: user.email ?? "",
+        }
+     })
     }
 
     return NextResponse.redirect("http://localhost:3000/dashboard/clinical-portal");
