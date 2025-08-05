@@ -66,12 +66,12 @@ const MobileMenu = ({ isOpen, toggleMenu }: { isOpen: boolean, toggleMenu: () =>
             {dashBoardNavLinks.map((link, index) => (
               <AnimeLink
                 initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05, type: "spring", bounce: 0.5 } }}
+                animate={{ opacity: 1, x: 0, transition: { delay: index * 0.05, type: "spring", bounce: 0.3 } }}
                 exit={{ opacity: 0, x: -5 }}
                 key={index}
                 href={link.href}
                 onClick={toggleMenu}
-                className={`px-3 py-2 rounded-md transition-colors text-sm ${pathname === link.href ? "bg-muted-foreground/20 border-[1px] border-accent-foreground/20 text-foreground" : ""
+                className={`px-3 py-2 rounded-xl transition-colors text-sm ${pathname === link.href ? "bg-muted-foreground/20 border-[1px] border-accent-foreground/20 text-foreground" : ""
                   }`}
               >
                 {link.title}
