@@ -55,8 +55,8 @@ export const dashBoardNavLinks = [
     href: "/dashboard/clinical-portal",
   },
   {
-    title: "Studies",
-    href: "/dashboard/studies",
+    title: "PCOS Info",
+    href: "/dashboard/pcos-info",
   },
   {
     title: "Profile",

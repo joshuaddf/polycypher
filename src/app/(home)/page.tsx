@@ -1,141 +1,11 @@
 'use client';
 import { howItWorks, SecurityInfo } from '../utils/data';
 import { ContentWrapper } from '../components/Wrapper';
-import { useRef } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const aboutRef = useRef<HTMLDivElement>(null);
-  const howItWorksRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const securityRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    // Animate hero section
-    if (heroRef.current) {
-      const logo = heroRef.current.querySelector('.opacity-50');
-      const title = heroRef.current.querySelector('h1');
-      const description = heroRef.current.querySelector('p');
-      
-      gsap.fromTo([logo, title, description], 
-        { opacity: 0, y: 50 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 1, 
-          stagger: 0.3,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      )
-    }
-
-    // Animate about section
-    if (aboutRef.current) {
-      const title = aboutRef.current.querySelector('h1');
-      const description = aboutRef.current.querySelector('p');
-      
-      gsap.fromTo([title, description], 
-        { opacity: 0, y: 40 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.8, 
-          stagger: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: aboutRef.current,
-            start: "top 75%",
-            end: "bottom 25%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      )
-    }
-
-    // Animate how it works section
-    if (howItWorksRef.current) {
-      const title = howItWorksRef.current.querySelector('h2');
-      const items = howItWorksRef.current.querySelectorAll('.flex.flex-col.items-center.justify-center.pb-5');
-      
-      gsap.fromTo([title, ...items], 
-        { opacity: 0, x: -60 },
-        { 
-          opacity: 1, 
-          x: 0, 
-          duration: 0.7, 
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: howItWorksRef.current,
-            start: "top 75%",
-            end: "bottom 25%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      )
-    }
-
-    // Animate stats section
-    if (statsRef.current) {
-      const percentage = statsRef.current.querySelector('h2');
-      const description = statsRef.current.querySelector('p');
-      
-      gsap.fromTo([percentage, description], 
-        { opacity: 0, scale: 0.8 },
-        { 
-          opacity: 1, 
-          scale: 1, 
-          duration: 0.8, 
-          stagger: 0.2,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: "top 75%",
-            end: "bottom 25%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      )
-    }
-
-    // Animate security section
-    if (securityRef.current) {
-      const title = securityRef.current.querySelector('h2');
-      const cards = securityRef.current.querySelectorAll('.flex.flex-col.items-start.min-h-\\[10rem\\]');
-      
-      gsap.fromTo([title, ...cards], 
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.7, 
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: securityRef.current,
-            start: "top 75%",
-            end: "bottom 25%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      )
-    }
-  }, {
-    scope: "home",
-    dependencies: []
-  });
-
   return (
     <div className="">
-      <section className="flex flex-col items-center justify-center h-[calc(100dvh-4rem)]" ref={heroRef}>
+      <section className="flex flex-col items-center justify-center h-[calc(100dvh-4rem)]">
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
             <div className="flex items-center gap-2 opacity-50">
@@ -153,7 +23,7 @@ export default function Home() {
         </ContentWrapper>
       </section>
 
-      <section ref={aboutRef}>
+      <section>
         <ContentWrapper className="w-full mt-[10rem]">
           <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
           <div className="flex flex-col items-center justify-center gap-4 mt-[15rem]">
@@ -187,7 +57,7 @@ export default function Home() {
         </div>
       </ContentWrapper>
 
-      <section ref={howItWorksRef}>
+      <section>
         <ContentWrapper className="w-full mt-[10rem] md:mt-[25rem]">
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
             <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
@@ -211,7 +81,16 @@ export default function Home() {
         </ContentWrapper>
       </section>
 
-      <section className='my-[10rem] md:my-[15rem]' ref={statsRef}>
+      <section className='my-[10rem] md:my-[15rem]'>
+        <ContentWrapper>
+          <div className="flex flex-col items-start justify-center gap-4">
+            <h2 className='text-5xl md:text-5xl lg:text-9xl font-bold'>80%</h2>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-left opacity-65'>Our model achieves 80% accuracy in detecting PCOS symptoms, validated through extensive clinical studies and peer-reviewed research.</p>
+          </div>
+        </ContentWrapper>
+      </section>
+
+      <section className='my-[10rem] md:my-[15rem]'>
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
             <h2 className='text-4xl md:text-5xl lg:text-6xl'>Feeling skeptical?</h2>
@@ -220,7 +99,7 @@ export default function Home() {
         </ContentWrapper>
       </section>
 
-      <section ref={securityRef}>
+      <section>
         <ContentWrapper className="flex flex-col items-start justify-center gap-4 my-[8rem] md:my-[12rem] lg:my-[15rem]">
           <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[50%] text-left font-black mb-10">
             Built with strong security and Privacy.

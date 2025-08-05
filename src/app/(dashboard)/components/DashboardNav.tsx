@@ -1,5 +1,5 @@
 "use client"
-import { ChevronRight, Activity, Calendar, Target, TrendingUp, Heart, AlertCircle, Slice } from "lucide-react";
+import { ChevronRight, Activity, Calendar, Target, TrendingUp, Heart, AlertCircle, Slice, File, ClipboardCheck } from "lucide-react";
 import AssessDrawer from "./AssessDrawer";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { usePathname } from "next/navigation";
@@ -46,13 +46,13 @@ const DashboardNav = () => {
             <span className="hidden sm:inline">Last Checkup: {userData.lastCheckup}</span>
             <span className="sm:hidden">Last: {userData.lastCheckup}</span>
           </div>
-          <div className="flex items-center gap-1 md:gap-2">
+          {/* <div className="flex items-center gap-1 md:gap-2">
             <Heart size={14} className="md:w-4 md:h-4" />
             <span>Score: {userData.wellnessScore}%</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-1 md:gap-2">
-            <Target size={14} className="md:w-4 md:h-4" />
-            <span className="hidden sm:inline">Checkups: {userData.checkupCount}</span>
+            <ClipboardCheck size={14} className="md:w-4 md:h-4" />
+            <span className="hidden sm:inline">Assessments: {userData.checkupCount}</span>
             <span className="sm:hidden">Total: {userData.checkupCount}</span>
           </div>
         </div>
