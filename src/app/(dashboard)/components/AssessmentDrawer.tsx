@@ -65,8 +65,10 @@ export const AssessmentDrawer = ({ assessment, index }: AssessmentDrawerProps) =
             </div>
           </div>
         </div>
-        <DrawerClose className={cn("pb-6")}>
-          <Button variant="outline" >Close</Button>
+        <DrawerClose>
+          <div className="p-6 w-full">
+            <Button variant="outline" className="w-full">Close</Button>
+          </div>
         </DrawerClose>
       </DrawerContent>
     </Drawer>
