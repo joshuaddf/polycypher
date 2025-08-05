@@ -16,6 +16,7 @@ import { ChartRadialStacked } from "../../components/RadialChart"
 import { AssessmentDrawer } from "../../components/AssessmentDrawer"
 import { AssessmentPopover } from "../../components/AssessmentPopover"
 import React from "react"
+import DashboardNav from "../../components/DashboardNav"
 
 const page = () => {
   const personalAssessments = [
@@ -79,6 +80,9 @@ const page = () => {
 
   return (
     <>
+      <ContentWrapper className="max-w-[1440px] mx-auto flex items-center justify-start w-full mt-[8rem]">
+        <DashboardNav />
+      </ContentWrapper>
       <section className="mt-5">
         <ContentWrapper className="max-w-[1440px] border-[1px] rounded-2xl p-4">
           <div className="grid grid-cols-1 md:grid-rows-2 lg:grid-cols-2 lg:grid-rows-1 gap-3">

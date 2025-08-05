@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import NavDropdownMenu from './NavDropdownMenu'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import AssessDrawer from './AssessDrawer'
 
 
 // interface NavbarProps {
@@ -38,7 +39,7 @@ const Navbar = () => {
                     <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">
                         {
                             dashBoardNavLinks.map((link, index) => (
-                                <div key={index} className='relative group'>    
+                                <div key={index} className='relative group'>
                                     <Link href={link.href} className={`${pathname === link.href ? "opacity-50  duration-300" : "text-foreground transition-all duration-300"}`}>{link.title}
                                         <span className='w-0 group-hover:w-full transition-all duration-300 bg-foreground h-0.5 absolute left-0 bottom-0' />
                                     </Link>
@@ -48,7 +49,8 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="flex items-center justify-center gap-3 md:gap-5">
-                        <NavDropdownMenu />
+                    {pathname !== '/dashboard/clinical-portal' &&  <div className='hidden md:block'><AssessDrawer /></div>}
+                    <NavDropdownMenu />
                     <div className="flex items-center justify-center md:hidden">
                         <MobileMenu isOpen={isOpen} toggleMenu={toggleMenu} />
                     </div>
