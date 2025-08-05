@@ -68,7 +68,7 @@ const MobileMenu = ({ isOpen, toggleMenu } : {isOpen: boolean, toggleMenu: () =>
               href={link.href}
               onClick={toggleMenu}
               className={`px-3 py-2 rounded-md transition-colors ${
-                pathname === link.href ? "bg-muted-foreground/20 border-2 border-accent-foreground text-foreground" : ""
+                pathname === link.href ? "bg-muted-foreground/20 border-2 border-accent text-foreground" : ""
               }`}
             >
               {link.title}
