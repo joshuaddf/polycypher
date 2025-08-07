@@ -30,7 +30,7 @@ export default function Home() {
             <h1 className="text-4xl lg:text-5xl md:w-[47%] text-center font-black">
               Understand Your PCOS Risk Today.
             </h1>
-            <p className="text-center text-base w-[85%] md:w-[50%] lg:w-1/3 opacity-50">
+            <p className="text-center text-base w-[85%] md:w-[50%] lg:w-1/3 opacity-75">
               Our platform uses advanced analytics to assess your symptoms and provide clear, actionable insights to manage PCOS effectively.
             </p>
           </div>
@@ -43,7 +43,7 @@ export default function Home() {
             <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl md:w-[47%] text-left font-black">About this project.</h2>
-              <p className="text-left w-[85%] md:w-[50%] lg:w-1/3 text-base opacity-65">
+              <p className="text-left w-[85%] md:w-[50%] lg:w-1/3 text-base opacity-75">
                 Developed in collaboration with reproductive health specialists, our platform combines clinical expertise with machine learning to help women identify PCOS symptoms early and seek appropriate medical care.
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function Home() {
                         <span>({index + 1})</span>
                         <h2 className='text-lg font-bold'>{item.title}</h2>
                       </div>
-                      <p className=" w-[85%] lg:w-full py-1 md:w-[50%] text-base opacity-65">{item.description}.</p>
+                      <p className=" w-[85%] lg:w-full py-1 md:w-[50%] text-base opacity-75">{item.description}.</p>
                     </div>
                   </div>
                 ))}
@@ -85,7 +85,7 @@ export default function Home() {
         <ContentWrapper>
           <div className="flex flex-col items-start justify-center gap-4">
             <h2 className='text-5xl md:text-5xl lg:text-9xl font-bold'>80%</h2>
-            <p className='text-base md:w-[50%] lg:w-1/3 text-left opacity-65'>Our model achieves 80% accuracy in detecting PCOS symptoms, validated through extensive clinical studies and peer-reviewed research.</p>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-left opacity-75'>Our model achieves 80% accuracy in detecting PCOS symptoms, validated through extensive clinical studies and peer-reviewed research.</p>
           </div>
         </ContentWrapper>
       </section>
@@ -94,7 +94,7 @@ export default function Home() {
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
             <h2 className='text-4xl md:text-5xl lg:text-6xl'>Feeling skeptical?</h2>
-            <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-65'>Our assessment is based on peer-reviewed research and validated clinical criteria used by healthcare professionals worldwide.</p>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-75'>Our assessment is based on peer-reviewed research and validated clinical criteria used by healthcare professionals worldwide.</p>
           </div>
         </ContentWrapper>
       </section>
@@ -115,7 +115,7 @@ export default function Home() {
                   <span className='text-sm opacity-50'>{info.caption}</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl py-5 font-bold md:w-2/3">{info.title}</h3>
-                <p className="text-base w-full opacity-55">{info.description}</p>
+                <p className="text-base w-full opacity-75">{info.description}</p>
               </div>
             ))}
             <div className="hidden md:flex absolute top-[49.5%] left-1/2 -translate-x-1/2 -translate-y-1/2  items-center justify-center ">

@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
-
+import { TrendingUp } from "lucide-react";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import {
   Card,
   CardContent,
@@ -10,37 +9,51 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A radial chart showing PCOS diagnosis distribution"
+export const description = "A radial chart showing symptom severity distribution";
 
-const chartData = [{ month: "June", confirmedCases: 55, pendingCases: 20 }]
+const chartData = [
+  { name: "Mild", value: 2, fill: "var(--chart-1)" },
+  { name: "Moderate", value: 3, fill: "var(--chart-2)" },
+  { name: "Severe", value: 2, fill: "var(--chart-3)" },
+];
 
 const chartConfig = {
-  confirmedCases: {
-    label: "Confirmed PCOS Cases",
+  mild: {
+    label: "Mild",
     color: "var(--chart-1)",
   },
-  pendingCases: {
-    label: "Pending PCOS Cases",
+  moderate: {
+    label: "Moderate",
     color: "var(--chart-2)",
   },
-} satisfies ChartConfig
+  severe: {
+    label: "Severe",
+    color: "var(--chart-3)",
+  },
+} satisfies ChartConfig;
 
-export function ChartRadialStacked() {
-  const totalCases = chartData[0].confirmedCases + chartData[0].pendingCases
+export function ChartRadialStacked({ data = chartData }: {
+  data?: {
+    name: string;
+    value: number;
+    fill: string;
+  }[]
+}) {
+  const totalCases = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <Card className="flex flex-col min-w-[150px]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>PCOS Diagnosis Distribution</CardTitle>
-        <CardDescription>June 2025</CardDescription>
+        <CardTitle>Symptom Severity Distribution</CardTitle>
+        <CardDescription>October 2023 - January 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer
@@ -48,7 +61,7 @@ export function ChartRadialStacked() {
           className="mx-auto aspect-square w-full max-w-[150px]"
         >
           <RadialBarChart
-            data={chartData}
+            data={data}
             endAngle={180}
             innerRadius={60}
             outerRadius={100}
@@ -75,24 +88,16 @@ export function ChartRadialStacked() {
                           y={(viewBox.cy || 0) + 4}
                           className="fill-muted-foreground text-sm"
                         >
-                          Total Cases
+                          Total Assessments
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="confirmedCases"
-              stackId="a"
-              cornerRadius={5}
-              fill="var(--color-confirmedCases)"
-              className="stroke-transparent stroke-2"
-            />
-            <RadialBar
-              dataKey="pendingCases"
-              fill="var(--color-pendingCases)"
+              dataKey="value"
               stackId="a"
               cornerRadius={5}
               className="stroke-transparent stroke-2"
@@ -102,12 +107,12 @@ export function ChartRadialStacked() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Moderate severity most common <TrendingUp className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing PCOS diagnosis distribution for June 2025
+          Showing symptom severity distribution across assessments
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }
