@@ -80,24 +80,6 @@ const page = () => {
     },
   ];
 
-  const correlationData = [
-    { feature: "Follicle No. (R)", correlation: 0.648327 },
-    { feature: "Follicle No. (L)", correlation: 0.603346 },
-    { feature: "Skin darkening (Y/N)", correlation: 0.475733 },
-    { feature: "hair growth(Y/N)", correlation: 0.464667 },
-    { feature: "Weight gain(Y/N)", correlation: 0.441047 },
-    { feature: "Cycle(R/I)", correlation: 0.401644 },
-    { feature: "Fast food (Y/N)", correlation: 0.377933 },
-    { feature: "Pimples(Y/N)", correlation: 0.286077 },
-    { feature: "AMH(ng/mL)", correlation: 0.263863 },
-    { feature: "Weight (Kg)", correlation: 0.211938 }
-  ];
-
-  const severityData = [
-    { name: "Mild", value: 2 },
-    { name: "Moderate", value: 3 },
-    { name: "Severe", value: 2 }
-  ];
 
   return (
     <>
@@ -129,8 +111,8 @@ const page = () => {
               </Table>
             </div>
             <div className="flex md:flex-row flex-col gap-3">
-              <ChartBarDefault data={correlationData} />
-              {/* <ChartRadialStacked data={severityData} /> */}
+              <ChartBarDefault  />
+              <ChartRadialStacked />
             </div>
           </div>
         </ContentWrapper>

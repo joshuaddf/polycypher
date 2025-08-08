@@ -15,11 +15,15 @@ import {
   Edit,
   Camera,
   Bell,
-  Lock
+  Lock,
+  Delete,
+  Trash,
+  X
 } from "lucide-react"
 import Image from "next/image"
 import { ContentWrapper } from '@/app/components/Wrapper'
 import { cn } from '@/lib/utils'
+import AssessmentHistory from '../../components/AssessmentHistory'
 
 const ProfilePage = () => {
   const { getUser } = useKindeBrowserClient();
@@ -39,6 +43,48 @@ const ProfilePage = () => {
       score: "Medium Risk",
       status: "Completed",
       symptoms: ["Irregular periods", "Hair growth"]
+    },
+    {
+      id: 3,
+      date: "2023-11-05",
+      score: "Low Risk",
+      status: "Completed",
+      symptoms: ["Irregular periods"]
+    },
+    {
+      id: 4,
+      date: "2023-10-20",
+      score: "Medium Risk",
+      status: "Completed",
+      symptoms: ["Weight gain", "Acne", "Hair growth"]
+    },
+    {
+      id: 5,
+      date: "2023-09-15",
+      score: "High Risk",
+      status: "Completed",
+      symptoms: ["Irregular periods", "Weight gain", "Acne", "Hair growth", "Fatigue"]
+    },
+    {
+      id: 6,
+      date: "2023-08-10",
+      score: "Medium Risk",
+      status: "Completed",
+      symptoms: ["Irregular periods", "Weight gain"]
+    },
+    {
+      id: 7,
+      date: "2023-07-25",
+      score: "Low Risk",
+      status: "Completed",
+      symptoms: ["Irregular periods"]
+    },
+    {
+      id: 8,
+      date: "2023-06-30",
+      score: "High Risk",
+      status: "Completed",
+      symptoms: ["Irregular periods", "Weight gain", "Acne", "Hair growth", "Fatigue", "Mood changes"]
     }
   ];
 
@@ -126,45 +172,7 @@ const ProfilePage = () => {
               </CardContent>
             </Card>
             {/* Assessment History */}
-            <Card>
-                             <CardHeader>
-                 <CardTitle className="flex items-center gap-2">
-                   <FileText className="h-5 w-5" />
-                   Assessment History
-                 </CardTitle>
-                 <CardDescription>
-                   Your previous PCOS assessments and results
-                 </CardDescription>
-               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {assessmentHistory.map((assessment) => (
-                    <div key={assessment.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="text-center">
-                          <div className="text-sm text-muted-foreground">Date</div>
-                          <div className="font-medium">{assessment.date}</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-sm text-muted-foreground">Risk Level</div>
-                          <Badge
-                            variant={assessment.score === "High Risk" ? "destructive" : "secondary"}
-                          >
-                            {assessment.score}
-                          </Badge>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm text-muted-foreground">Symptoms</div>
-                        <div className="text-xs text-muted-foreground max-w-xs">
-                          {assessment.symptoms.join(", ")}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <AssessmentHistory assessments={assessmentHistory} showCount={2} />
             {/* Account Settings */}
             <Card>
               <CardHeader>
@@ -177,44 +185,31 @@ const ProfilePage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Bell className="h-5 w-5 text-muted-foreground" />
-                      <div>
-                        <div className="font-medium">Notifications</div>
-                        <div className="text-sm text-muted-foreground">Manage your notification preferences</div>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm">
-                      Configure
-                    </Button>
-                  </div>
 
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Lock className="h-5 w-5 text-muted-foreground" />
-                      <div>
-                        <div className="font-medium">Privacy & Security</div>
-                        <div className="text-sm text-muted-foreground">Manage your data and security settings</div>
-                      </div>
+                <div className="flex items-center justify-between p-4 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <div className="font-medium">Data Export</div>
+                      <div className="text-sm text-muted-foreground">Download your health data</div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      Manage
-                    </Button>
                   </div>
-                  <div className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Shield className="h-5 w-5 text-muted-foreground" />
-                      <div>
-                        <div className="font-medium">Data Export</div>
-                        <div className="text-sm text-muted-foreground">Download your health data</div>
-                      </div>
+                  <Button variant="outline" size="sm">
+                    Export
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between p-6 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Trash className="h-5 w-5 text-muted-foreground" />
+                    <div>
+                      <div className="font-medium">Delete you account</div>
+                      <div className="text-sm text-muted-foreground">Permanently delete your account</div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      Export
-                    </Button>
                   </div>
+                  <Button variant="destructive" size="sm">
+                    Manage
+                  </Button>
                 </div>
               </CardContent>
             </Card>

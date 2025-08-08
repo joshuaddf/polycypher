@@ -36,7 +36,7 @@ const DashboardNav = () => {
           </div>
         </div>
         <p className="text-sm text-muted-foreground max-w-md hidden md:block">
-          Track your wellness metrics, monitor health trends, and receive personalized insights for optimal health
+          Track your wellness metrics and monitor health trends for optimal health
         </p>
       </div>
       <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-4">
