@@ -21,7 +21,7 @@ import DashboardNav from "../../components/DashboardNav"
 const page = () => {
 
 
-  const personalAssessments = [
+   const personalAssessments = [
     {
       date: "2024-01-15",
       symptomSeverity: "Moderate",

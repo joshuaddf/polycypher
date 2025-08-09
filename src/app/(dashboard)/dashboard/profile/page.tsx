@@ -18,12 +18,17 @@ import {
   Lock,
   Delete,
   Trash,
-  X
+  X,
+  Download,
+  Heart,
+  AlertCircle,
+  ClipboardCheck
 } from "lucide-react"
 import Image from "next/image"
 import { ContentWrapper } from '@/app/components/Wrapper'
 import { cn } from '@/lib/utils'
 import AssessmentHistory from '../../components/AssessmentHistory'
+import { DeleteDialog } from '../../components/DeleteDialog'
 
 const ProfilePage = () => {
   const { getUser } = useKindeBrowserClient();
@@ -152,21 +157,33 @@ const ProfilePage = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">{healthMetrics.totalAssessments}</div>
-                    <div className="text-sm text-muted-foreground">Total Assessments</div>
+                  <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-4 shadow-sm border">
+                    <div className="flex items-center justify-start gap-3">
+                      <ClipboardCheck className="h-4 w-4" />
+                      <div className="text-sm font-bold text-primary">{healthMetrics.totalAssessments}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1  not-last:">Total Assessments</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-orange-500">{healthMetrics.riskLevel}</div>
-                    <div className="text-sm text-muted-foreground">Current Risk Level</div>
+                  <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-4 shadow-sm border">
+                    <div className="flex items-center justify-start gap-3">
+                      <AlertCircle className="h-4 w-4" />
+                      <div className="text-sm font-bold">{healthMetrics.riskLevel}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">Current Risk Level</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-500">{healthMetrics.lastAssessment}</div>
-                    <div className="text-sm text-muted-foreground">Last Assessment</div>
+                  <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-4 shadow-sm border">
+                    <div className="flex items-center justify-start gap-3">
+                      <Calendar className="h-4 w-4" />
+                      <div className="text-sm font-bold">{healthMetrics.lastAssessment}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">Last Assessment</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-500">8</div>
-                    <div className="text-sm text-muted-foreground">Symptoms Tracked</div>
+                  <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-3 shadow-sm border">
+                    <div className="flex gap-3 items-center justify-start">
+                      <Heart className="h-4 w-4" />
+                      <div className="text-sm font-bold">8</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">Symptoms Tracked</div>
                   </div>
                 </div>
               </CardContent>
@@ -184,14 +201,14 @@ const ProfilePage = () => {
                   Manage your account preferences and security
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-
+              <CardContent className='space-y-4'>
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="flex items-center gap-3">
-                    <Shield className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <div className="font-medium">Data Export</div>
-                      <div className="text-sm text-muted-foreground">Download your health data</div>
+                      <div className="font-medium flex items-center gap-2 text-sm">
+                        <Download className="h-4 w-4 text-muted-foreground" />
+                        Data Export</div>
+                      {/* <div className="text-sm text-muted-foreground">Download your health data</div> */}
                     </div>
                   </div>
                   <Button variant="outline" size="sm">
@@ -199,17 +216,16 @@ const ProfilePage = () => {
                   </Button>
                 </div>
 
-                <div className="flex items-center justify-between p-6 border rounded-lg">
+                <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div className="flex items-center gap-3">
-                    <Trash className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <div className="font-medium">Delete you account</div>
-                      <div className="text-sm text-muted-foreground">Permanently delete your account</div>
+                      <div className="font-medium flex items-center gap-2 text-sm">
+                        <Trash className="h-4 w-4 text-muted-foreground" />
+                        Delete you account</div>
+                      {/* <div className="text-sm text-muted-foreground">Permanently delete your account</div> */}
                     </div>
                   </div>
-                  <Button variant="destructive" size="sm">
-                    Manage
-                  </Button>
+                  <DeleteDialog />
                 </div>
               </CardContent>
             </Card>

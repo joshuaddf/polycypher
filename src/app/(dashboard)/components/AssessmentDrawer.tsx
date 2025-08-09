@@ -41,7 +41,7 @@ export const AssessmentDrawer = ({ assessment, index }: AssessmentDrawerProps) =
         <DrawerHeader>
           <DrawerTitle>Assessment Details - {assessment.date}</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4 pb-4">
+        <div className="px-5 pb-3">
           <div className="space-y-4">
             <div>
               <h4 className="font-semibold">Symptom Severity</h4>
@@ -65,7 +65,7 @@ export const AssessmentDrawer = ({ assessment, index }: AssessmentDrawerProps) =
             </div>
           </div>
         </div>
-        <DrawerClose>
+        <DrawerClose asChild>
           <div className="p-6 w-full">
             <Button variant="outline" className="w-full">Close</Button>
           </div>

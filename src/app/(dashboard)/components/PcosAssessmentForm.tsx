@@ -12,7 +12,7 @@ import {
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-// Define interfaces (unchanged)
+// Interfaces and weights remain unchanged
 interface PcosFormData {
   pcos: "Yes" | "No" | "";
   follicleR: string;
@@ -55,7 +55,6 @@ interface NumericalPcosData {
   weight: number;
 }
 
-// Weights (unchanged)
 const weights: PcosWeights = {
   pcos: 1.0,
   follicleR: 0.648327,
@@ -85,7 +84,6 @@ const PcosAssessmentForm = () => {
     weight: "",
   });
 
-  // getNumericalData and calculateScore (unchanged)
   const getNumericalData = (data: PcosFormData): NumericalPcosData => {
     return {
       pcos: data.pcos === "Yes" ? 1 : 0,
@@ -112,206 +110,208 @@ const PcosAssessmentForm = () => {
     return score.toFixed(2);
   };
 
-  // Handle form submission (unchanged)
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    console.log("Form submitted with data:", formData); // Debugging
     const score = calculateScore(formData);
     alert(`Your PCOS assessment score is: ${score}`);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <ScrollArea className="max-h-[800px] pr-4">
-        <div className="space-y-4 pb-6">
-          <div className="flex items-center justify-between">
-            <label htmlFor="pcos" className="block text-sm font-medium">
-              PCOS
-            </label>
-            <Select
-              value={formData.pcos}
-              onValueChange={(value) =>
-                setFormData({ ...formData, pcos: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
+    <div className="h-[60vh] flex flex-col">
+      <ScrollArea className="flex-1 overflow-auto">
+        <form id="pcos-form" onSubmit={handleSubmit} className="space-y-4 p-4">
+          <div className="space-y-4 pb-6">
+            <div className="flex items-center justify-between">
+              <label htmlFor="pcos" className="block text-sm font-medium">
+                PCOS
+              </label>
+              <Select
+                value={formData.pcos}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, pcos: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="follicleR" className="block text-sm font-medium">
+                Follicle Number (Right)
+              </label>
+              <Input
+                className="w-1/3"
+                type="number"
+                id="follicleR"
+                value={formData.follicleR}
+                onChange={(e) => setFormData({ ...formData, follicleR: e.target.value })}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="follicleL" className="block text-sm font-medium">
+                Follicle Number (Left)
+              </label>
+              <Input
+                className="w-1/3"
+                type="number"
+                id="follicleL"
+                value={formData.follicleL}
+                onChange={(e) => setFormData({ ...formData, follicleL: e.target.value })}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="skinDarkening" className="block text-sm font-medium">
+                Skin Darkening
+              </label>
+              <Select
+                value={formData.skinDarkening}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, skinDarkening: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="hairGrowth" className="block text-sm font-medium">
+                Hair Growth
+              </label>
+              <Select
+                value={formData.hairGrowth}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, hairGrowth: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="weightGain" className="block text-sm font-medium">
+                Weight Gain
+              </label>
+              <Select
+                value={formData.weightGain}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, weightGain: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="cycle" className="block text-sm font-medium">
+                Menstrual Cycle
+              </label>
+              <Select
+                value={formData.cycle}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, cycle: value as "Regular" | "Irregular" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Regular">Regular</SelectItem>
+                  <SelectItem value="Irregular">Irregular</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="fastFood" className="block text-sm font-medium">
+                Fast Food Consumption
+              </label>
+              <Select
+                value={formData.fastFood}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, fastFood: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="pimples" className="block text-sm font-medium">
+                Pimples
+              </label>
+              <Select
+                value={formData.pimples}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, pimples: value as "Yes" | "No" })
+                }
+              >
+                <SelectTrigger className="w-1/3">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Yes">Yes</SelectItem>
+                  <SelectItem value="No">No</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="amh" className="block text-sm font-medium">
+                AMH (ng/mL)
+              </label>
+              <Input
+                className="w-1/3"
+                type="number"
+                id="amh"
+                step="0.1"
+                value={formData.amh}
+                onChange={(e) => setFormData({ ...formData, amh: e.target.value })}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="weight" className="block text-sm font-medium">
+                Weight (Kg)
+              </label>
+              <Input
+                className="w-1/3"
+                type="number"
+                id="weight"
+                step="0.1"
+                value={formData.weight}
+                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+              />
+            </div>
           </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="follicleR" className="block text-sm font-medium">
-              Follicle Number (Right)
-            </label>
-            <Input
-              className="w-1/3"
-              type="number"
-              id="follicleR"
-              value={formData.follicleR}
-              onChange={(e) => setFormData({ ...formData, follicleR: e.target.value })}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="follicleL" className="block text-sm font-medium">
-              Follicle Number (Left)
-            </label>
-            <Input
-              className="w-1/3"
-              type="number"
-              id="follicleL"
-              value={formData.follicleL}
-              onChange={(e) => setFormData({ ...formData, follicleL: e.target.value })}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="skinDarkening" className="block text-sm font-medium">
-              Skin Darkening
-            </label>
-            <Select
-              value={formData.skinDarkening}
-              onValueChange={(value) =>
-                setFormData({ ...formData, skinDarkening: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="hairGrowth" className="block text-sm font-medium">
-              Hair Growth
-            </label>
-            <Select
-              value={formData.hairGrowth}
-              onValueChange={(value) =>
-                setFormData({ ...formData, hairGrowth: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="weightGain" className="block text-sm font-medium">
-              Weight Gain
-            </label>
-            <Select
-              value={formData.weightGain}
-              onValueChange={(value) =>
-                setFormData({ ...formData, weightGain: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="cycle" className="block text-sm font-medium">
-              Menstrual Cycle
-            </label>
-            <Select
-              value={formData.cycle}
-              onValueChange={(value) =>
-                setFormData({ ...formData, cycle: value as "Regular" | "Irregular" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Regular">Regular</SelectItem>
-                <SelectItem value="Irregular">Irregular</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="fastFood" className="block text-sm font-medium">
-              Fast Food Consumption
-            </label>
-            <Select
-              value={formData.fastFood}
-              onValueChange={(value) =>
-                setFormData({ ...formData, fastFood: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="pimples" className="block text-sm font-medium">
-              Pimples
-            </label>
-            <Select
-              value={formData.pimples}
-              onValueChange={(value) =>
-                setFormData({ ...formData, pimples: value as "Yes" | "No" })
-              }
-            >
-              <SelectTrigger className="w-1/3">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Yes">Yes</SelectItem>
-                <SelectItem value="No">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="amh" className="block text-sm font-medium">
-              AMH (ng/mL)
-            </label>
-            <Input
-              className="w-1/3"
-              type="number"
-              id="amh"
-              step="0.1"
-              value={formData.amh}
-              onChange={(e) => setFormData({ ...formData, amh: e.target.value })}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <label htmlFor="weight" className="block text-sm font-medium">
-              Weight (Kg)
-            </label>
-            <Input
-              className="w-1/3"
-              type="number"
-              id="weight"
-              step="0.1"
-              value={formData.weight}
-              onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-            />
-          </div>
-        </div>
+        </form>
       </ScrollArea>
       {/* Sticky Footer for Buttons */}
       <div className="sticky bottom-0 bg-background p-4 border-t">
-        <div className="flex justify-end gap-4">
-          <Button type="submit">Submit</Button>
+        <div className="flex justify-end gap-4 w-full">
+          <Button type="submit" form="pcos-form">Submit</Button>
           <DrawerClose asChild>
             <Button variant="outline" type="button">
               Cancel
@@ -319,7 +319,7 @@ const PcosAssessmentForm = () => {
           </DrawerClose>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 
