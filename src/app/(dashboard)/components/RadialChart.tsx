@@ -18,34 +18,40 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-export const description = "A radial chart with stacked sections"
+export const description = "A radial chart showing total PCOS assessments by severity level"
 
-const chartData = [{ month: "january", desktop: 1260, mobile: 570 }]
+const chartData = [
+  { severity: "Total", low: 120, medium: 180, high: 60 },
+]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
+  low: {
+    label: "Low Severity",
+    color: "hsl(142, 71%, 45%)", // Green for Low severity
   },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
+  medium: {
+    label: "Medium Severity",
+    color: "hsl(24, 94%, 50%)", // Orange for Medium severity
+  },
+  high: {
+    label: "High Severity",
+    color: "hsl(0, 72%, 51%)", // Red for High severity
   },
 } satisfies ChartConfig
 
 export function ChartRadialStacked() {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile
+  const totalAssessments = chartData[0].low + chartData[0].medium + chartData[0].high
 
   return (
-    <Card className="flex flex-col min-w-[150px]">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Stacked</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+    <Card className="flex flex-col">
+      <CardHeader className="items-center">
+        <CardTitle>PCOS Assessments by Severity</CardTitle>
+        <CardDescription>Total Assessments in 2025</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-1 items-center pb-0">
+      <CardContent className="flex flex-1 items-center ">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
+          className="mx-auto aspect-square w-full max-w-[300px]"
         >
           <RadialBarChart
             data={chartData}
@@ -68,14 +74,14 @@ export function ChartRadialStacked() {
                           y={(viewBox.cy || 0) - 16}
                           className="fill-foreground text-2xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalAssessments.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 4}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Assessments
                         </tspan>
                       </text>
                     )
@@ -84,28 +90,32 @@ export function ChartRadialStacked() {
               />
             </PolarRadiusAxis>
             <RadialBar
-              dataKey="desktop"
+              dataKey="low"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-desktop)"
+              fill="var(--color-low)"
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="mobile"
-              fill="var(--color-mobile)"
+              dataKey="medium"
               stackId="a"
               cornerRadius={5}
+              fill="var(--color-medium)"
+              className="stroke-transparent stroke-2"
+            />
+            <RadialBar
+              dataKey="high"
+              stackId="a"
+              cornerRadius={5}
+              fill="var(--color-high)"
               className="stroke-transparent stroke-2"
             />
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
+      <CardFooter className="flex-col items-center gap-2 text-sm text-center">
         <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
+          Showing total PCOS assessments by severity level for 2025
         </div>
       </CardFooter>
     </Card>

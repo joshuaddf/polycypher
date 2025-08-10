@@ -167,7 +167,7 @@ const ProfilePage = () => {
                   <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-4 shadow-sm border">
                     <div className="flex items-center justify-start gap-3">
                       <AlertCircle className="h-4 w-4" />
-                      <div className="text-sm font-bold">{healthMetrics.riskLevel}</div>
+                      <div className="text-sm font-bold">{healthMetrics.riskLevel}</div>@
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">Current Risk Level</div>
                   </div>

@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { ChartBarDefault } from "../../components/ChartBarDefault"
+import { PCOSChart } from "../../components/ChartBarDefault"
 import { ChartRadialStacked } from "../../components/RadialChart"
 import { AssessmentDrawer } from "../../components/AssessmentDrawer"
 import { AssessmentPopover } from "../../components/AssessmentPopover"
@@ -21,7 +21,7 @@ import DashboardNav from "../../components/DashboardNav"
 const page = () => {
 
 
-   const personalAssessments = [
+  const personalAssessments = [
     {
       date: "2024-01-15",
       symptomSeverity: "Moderate",
@@ -111,7 +111,9 @@ const page = () => {
               </Table>
             </div>
             <div className="flex md:flex-row flex-col gap-3">
-              <ChartBarDefault  />
+              {/* chart for severity */}
+              <PCOSChart />
+              {/* chart for total assessments and severities */}
               <ChartRadialStacked />
             </div>
           </div>
