@@ -5,8 +5,107 @@ import * as RechartsPrimitive from "recharts"
 
 import { cn } from "@/lib/utils"
 
-// Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { light: "", dark: ".dark" } as const
+const themes = {
+  light: {
+    background: "hsl(0 0% 100%)",
+    foreground: "hsl(222.2 84% 4.9%)",
+    primary: "hsl(222.2 47.4% 11.2%)",
+    primaryForeground: "hsl(210 40% 98%)",
+    secondary: "hsl(210 40% 96%)",
+    secondaryForeground: "hsl(222.2 47.4% 11.2%)",
+    muted: "hsl(210 40% 96%)",
+    mutedForeground: "hsl(215.4 16.3% 46.9%)",
+    accent: "hsl(210 40% 96%)",
+    accentForeground: "hsl(222.2 47.4% 11.2%)",
+    destructive: "hsl(0 84.2% 60.2%)",
+    destructiveForeground: "hsl(210 40% 98%)",
+    border: "hsl(214.3 31.8% 91.4%)",
+    input: "hsl(214.3 31.8% 91.4%)",
+    ring: "hsl(222.2 84% 4.9%)",
+    chart: {
+      "1": "hsl(12 76% 61%)",
+      "2": "hsl(173 58% 39%)",
+      "3": "hsl(197 37% 24%)",
+      "4": "hsl(43 74% 66%)",
+      "5": "hsl(27 87% 67%)",
+    },
+  },
+  dark: {
+    background: "hsl(222.2 84% 4.9%)",
+    foreground: "hsl(210 40% 98%)",
+    primary: "hsl(210 40% 98%)",
+    primaryForeground: "hsl(222.2 47.4% 11.2%)",
+    secondary: "hsl(217.2 32.6% 17.5%)",
+    secondaryForeground: "hsl(210 40% 98%)",
+    muted: "hsl(217.2 32.6% 17.5%)",
+    mutedForeground: "hsl(215 20.2% 65.1%)",
+    accent: "hsl(217.2 32.6% 17.5%)",
+    accentForeground: "hsl(210 40% 98%)",
+    destructive: "hsl(0 62.8% 30.6%)",
+    destructiveForeground: "hsl(210 40% 98%)",
+    border: "hsl(217.2 32.6% 17.5%)",
+    input: "hsl(217.2 32.6% 17.5%)",
+    ring: "hsl(212.7 26.8% 83.9%)",
+    chart: {
+      "1": "hsl(220 70% 50%)",
+      "2": "hsl(160 60% 45%)",
+      "3": "hsl(30 80% 55%)",
+      "4": "hsl(280 65% 60%)",
+      "5": "hsl(340 75% 55%)",
+    },
+  },
+} as const;
+
+const chartConfig = {
+  light: {
+    background: "hsl(0 0% 100%)",
+    foreground: "hsl(222.2 84% 4.9%)",
+    primary: "hsl(222.2 47.4% 11.2%)",
+    primaryForeground: "hsl(210 40% 98%)",
+    secondary: "hsl(210 40% 96%)",
+    secondaryForeground: "hsl(222.2 47.4% 11.2%)",
+    muted: "hsl(210 40% 96%)",
+    mutedForeground: "hsl(215.4 16.3% 46.9%)",
+    accent: "hsl(210 40% 96%)",
+    accentForeground: "hsl(222.2 47.4% 11.2%)",
+    destructive: "hsl(0 84.2% 60.2%)",
+    destructiveForeground: "hsl(210 40% 98%)",
+    border: "hsl(214.3 31.8% 91.4%)",
+    input: "hsl(214.3 31.8% 91.4%)",
+    ring: "hsl(222.2 84% 4.9%)",
+    chart: {
+      "1": "hsl(12 76% 61%)",
+      "2": "hsl(173 58% 39%)",
+      "3": "hsl(197 37% 24%)",
+      "4": "hsl(43 74% 66%)",
+      "5": "hsl(27 87% 67%)",
+    },
+  },
+  dark: {
+    background: "hsl(222.2 84% 4.9%)",
+    foreground: "hsl(210 40% 98%)",
+    primary: "hsl(210 40% 98%)",
+    primaryForeground: "hsl(222.2 47.4% 11.2%)",
+    secondary: "hsl(217.2 32.6% 17.5%)",
+    secondaryForeground: "hsl(210 40% 98%)",
+    muted: "hsl(217.2 32.6% 17.5%)",
+    mutedForeground: "hsl(215 20.2% 65.1%)",
+    accent: "hsl(217.2 32.6% 17.5%)",
+    accentForeground: "hsl(210 40% 98%)",
+    destructive: "hsl(0 62.8% 30.6%)",
+    destructiveForeground: "hsl(210 40% 98%)",
+    border: "hsl(217.2 32.6% 17.5%)",
+    input: "hsl(217.2 32.6% 17.5%)",
+    ring: "hsl(212.7 26.8% 83.9%)",
+    chart: {
+      "1": "hsl(220 70% 50%)",
+      "2": "hsl(160 60% 45%)",
+      "3": "hsl(30 80% 55%)",
+      "4": "hsl(280 65% 60%)",
+      "5": "hsl(340 75% 55%)",
+    },
+  },
+} as const;
 
 export type ChartConfig = {
   [k in string]: {
@@ -304,7 +403,6 @@ function ChartLegendContent({
   )
 }
 
-// Helper to extract item config from a payload.
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,
@@ -341,6 +439,19 @@ function getPayloadConfigFromPayload(
   return configLabelKey in config
     ? config[configLabelKey]
     : config[key as keyof typeof config]
+}
+
+function extractItemConfig(payload: any, config: ChartConfig) {
+  if (!payload || !payload.dataKey) return null;
+
+  const itemConfig = config[payload.dataKey as keyof ChartConfig];
+  if (!itemConfig) return null;
+
+  return {
+    ...itemConfig,
+    value: payload.value,
+    payload: payload.payload,
+  };
 }
 
 export {

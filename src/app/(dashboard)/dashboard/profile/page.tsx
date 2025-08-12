@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -29,82 +29,109 @@ import { ContentWrapper } from '@/app/components/Wrapper'
 import { cn } from '@/lib/utils'
 import AssessmentHistory from '../../components/AssessmentHistory'
 import { DeleteDialog } from '../../components/DeleteDialog'
+import { getAssessments } from '@/lib/services/assessmentService'
+
+interface Assessment {
+  id: string
+  createdAt: string
+  score: number | null
+  pcos: string | null
+  follicleR: number | null
+  follicleL: number | null
+  skinDarkening: string | null
+  hairGrowth: string | null
+  weightGain: string | null
+  cycle: string | null
+  fastFood: string | null
+  pimples: string | null
+  amh: number | null
+  weight: number | null
+}
 
 const ProfilePage = () => {
   const { getUser } = useKindeBrowserClient();
   const user = getUser();
+  const [assessments, setAssessments] = useState<Assessment[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const assessmentHistory = [
-    {
-      id: 1,
-      date: "2024-01-15",
-      score: "High Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods", "Weight gain", "Acne"]
-    },
-    {
-      id: 2,
-      date: "2023-12-10",
-      score: "Medium Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods", "Hair growth"]
-    },
-    {
-      id: 3,
-      date: "2023-11-05",
-      score: "Low Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods"]
-    },
-    {
-      id: 4,
-      date: "2023-10-20",
-      score: "Medium Risk",
-      status: "Completed",
-      symptoms: ["Weight gain", "Acne", "Hair growth"]
-    },
-    {
-      id: 5,
-      date: "2023-09-15",
-      score: "High Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods", "Weight gain", "Acne", "Hair growth", "Fatigue"]
-    },
-    {
-      id: 6,
-      date: "2023-08-10",
-      score: "Medium Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods", "Weight gain"]
-    },
-    {
-      id: 7,
-      date: "2023-07-25",
-      score: "Low Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods"]
-    },
-    {
-      id: 8,
-      date: "2023-06-30",
-      score: "High Risk",
-      status: "Completed",
-      symptoms: ["Irregular periods", "Weight gain", "Acne", "Hair growth", "Fatigue", "Mood changes"]
+  useEffect(() => {
+    const fetchAssessments = async () => {
+      try {
+        const data = await getAssessments()
+        setAssessments(data || [])
+      } catch (error) {
+        console.error('Error fetching assessments:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-  ];
+
+    fetchAssessments()
+  }, [])
+
+  const getRiskLevel = (score: number | null): string => {
+    if (!score) return "No Score"
+    if (score >= 25.0) return "Very High Risk"
+    if (score >= 15.0) return "High Risk"
+    if (score >= 8.0) return "Medium Risk"
+    if (score >= 5.0) return "Low Risk"
+    return "Very Low Risk"
+  }
+
+  const getSymptomsCount = (): number => {
+    const allSymptoms = new Set<string>()
+    assessments.forEach(assessment => {
+      if (assessment.pcos === "Yes") allSymptoms.add("PCOS")
+      if (assessment.skinDarkening === "Yes") allSymptoms.add("Skin Darkening")
+      if (assessment.hairGrowth === "Yes") allSymptoms.add("Hair Growth")
+      if (assessment.weightGain === "Yes") allSymptoms.add("Weight Gain")
+      if (assessment.cycle === "Irregular") allSymptoms.add("Irregular Cycle")
+      if (assessment.fastFood === "Yes") allSymptoms.add("Fast Food")
+      if (assessment.pimples === "Yes") allSymptoms.add("Pimples")
+    })
+    return allSymptoms.size
+  }
+
+  const getLatestAssessment = () => {
+    if (assessments.length === 0) return null
+    return assessments[0]
+  }
+
+  const getLatestRiskLevel = (): string => {
+    const latest = getLatestAssessment()
+    return latest ? getRiskLevel(latest.score) : "No Data"
+  }
+
+  const getLatestAssessmentDate = (): string => {
+    const latest = getLatestAssessment()
+    if (!latest) return "No Data"
+    return new Date(latest.createdAt).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
 
   const healthMetrics = {
-    lastAssessment: "2024-01-15",
-    totalAssessments: 5,
-    riskLevel: "High Risk",
-    nextRecommendedAssessment: "2024-02-15"
+    lastAssessment: getLatestAssessmentDate(),
+    totalAssessments: assessments.length,
+    riskLevel: getLatestRiskLevel(),
+    symptomsTracked: getSymptomsCount()
+  };
+
+  const userData = {
+    name: user?.given_name + " " + user?.family_name,
+    lastCheckup: getLatestAssessmentDate(),
+    checkupCount: assessments.length,
+    wellnessScore: 85,
+    riskStatus: getLatestRiskLevel(),
+    nextCheckup: "5 days"
   };
 
   return (
     <ContentWrapper className='mt-20'>
       <div className="container mx-auto">
         <div className="mb-8">
-          {/* <h1 className="text-3xl font-bold text-foreground">Profile</h1> */}
           <p className="text-muted-foreground mt-2">Manage your account and health information</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -134,17 +161,11 @@ const ProfilePage = () => {
                     <span className="text-sm text-muted-foreground">Member since</span>
                     <span className="text-sm font-medium">January 2024</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Account status</span>
-                    <Badge variant="secondary">Active</Badge>
-                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Health Overview */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -167,7 +188,7 @@ const ProfilePage = () => {
                   <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-4 shadow-sm border">
                     <div className="flex items-center justify-start gap-3">
                       <AlertCircle className="h-4 w-4" />
-                      <div className="text-sm font-bold">{healthMetrics.riskLevel}</div>@
+                      <div className="text-sm font-bold">{healthMetrics.riskLevel}</div>
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">Current Risk Level</div>
                   </div>
@@ -181,16 +202,14 @@ const ProfilePage = () => {
                   <div className="flex flex-col items-center justify-center bg-muted rounded-lg p-3 shadow-sm border">
                     <div className="flex gap-3 items-center justify-start">
                       <Heart className="h-4 w-4" />
-                      <div className="text-sm font-bold">8</div>
+                      <div className="text-sm font-bold">{healthMetrics.symptomsTracked}</div>
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">Symptoms Tracked</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            {/* Assessment History */}
-            <AssessmentHistory assessments={assessmentHistory} showCount={2} />
-            {/* Account Settings */}
+            <AssessmentHistory showCount={2} />
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -206,23 +225,12 @@ const ProfilePage = () => {
                   <div className="flex items-center gap-3">
                     <div>
                       <div className="font-medium flex items-center gap-2 text-sm">
-                        <Download className="h-4 w-4 text-muted-foreground" />
-                        Data Export</div>
-                      {/* <div className="text-sm text-muted-foreground">Download your health data</div> */}
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Export
-                  </Button>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <div className="font-medium flex items-center gap-2 text-sm">
-                        <Trash className="h-4 w-4 text-muted-foreground" />
-                        Delete you account</div>
-                      {/* <div className="text-sm text-muted-foreground">Permanently delete your account</div> */}
+                        <Trash className="h-4 w-4 text-destructive" />
+                        Delete Account
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Permanently delete your account and all associated data
+                      </div>
                     </div>
                   </div>
                   <DeleteDialog />

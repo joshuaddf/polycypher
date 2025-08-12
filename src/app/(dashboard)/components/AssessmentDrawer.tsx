@@ -32,8 +32,7 @@ export const AssessmentDrawer = ({ assessment, index }: AssessmentDrawerProps) =
         <TableRow className={cn("h-14 cursor-pointer hover:bg-accent/40 md:hidden")}>
           <TableCell className="font-medium">{assessment.date}</TableCell>
           <TableCell>{assessment.symptomSeverity}</TableCell>
-          <TableCell className="hidden md:table-cell">{assessment.assessmentType}</TableCell>
-          <TableCell className="text-center">{assessment.hormoneLevel}</TableCell>
+          <TableCell className="text-left">{assessment.hormoneLevel}</TableCell>
           <TableCell className="text-sm text-muted-foreground hidden md:table-cell">{assessment.notes}</TableCell>
         </TableRow>
       </DrawerTrigger>

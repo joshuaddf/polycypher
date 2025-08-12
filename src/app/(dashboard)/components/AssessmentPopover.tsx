@@ -27,8 +27,7 @@ export const AssessmentPopover = ({ assessment, index }: AssessmentPopoverProps)
         <TableRow className={cn("h-14 cursor-pointer hover:bg-accent/40 hidden md:table-row")}>
           <TableCell className="font-medium">{assessment.date}</TableCell>
           <TableCell>{assessment.symptomSeverity}</TableCell>
-          <TableCell className="hidden md:table-cell">{assessment.assessmentType}</TableCell>
-          <TableCell className="text-center">{assessment.hormoneLevel}</TableCell>
+          <TableCell className="text-left">{assessment.hormoneLevel}</TableCell>
           <TableCell className="text-sm text-muted-foreground hidden md:table-cell">{assessment.notes}</TableCell>
         </TableRow>
       </PopoverTrigger>
@@ -40,15 +39,11 @@ export const AssessmentPopover = ({ assessment, index }: AssessmentPopoverProps)
             <p className="text-muted-foreground text-sm">{assessment.symptomSeverity}</p>
           </div>
           <div>
-            <h5 className="font-medium">Assessment Type</h5>
-            <p className="text-muted-foreground text-sm">{assessment.assessmentType}</p>
-          </div>
-          <div>
             <h5 className="font-medium">Hormone Level</h5>
             <p className="text-muted-foreground text-sm">{assessment.hormoneLevel}</p>
           </div>
           <div>
-            <h5 className="font-medium">Notes</h5>
+            <h5 className="font-medium">Symptoms</h5>
             <p className="text-muted-foreground text-sm">{assessment.notes}</p>
           </div>
           <div>

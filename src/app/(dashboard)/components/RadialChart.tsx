@@ -2,6 +2,8 @@
 
 import { TrendingUp } from "lucide-react"
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts"
+import { useState, useEffect } from "react"
+import { getAssessments } from "@/lib/services/assessmentService"
 
 import {
   Card,
@@ -18,35 +20,136 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-export const description = "A radial chart showing total PCOS assessments by severity level"
+interface Assessment {
+  id: string
+  createdAt: string
+  score: number | null
+  pcos: string | null
+  follicleR: number | null
+  follicleL: number | null
+  skinDarkening: string | null
+  hairGrowth: string | null
+  weightGain: string | null
+  cycle: string | null
+  fastFood: string | null
+  pimples: string | null
+  amh: number | null
+  weight: number | null
+}
 
-const chartData = [
-  { severity: "Total", low: 120, medium: 180, high: 60 },
-]
+export const description = "A radial chart showing total PCOS assessments by severity level"
 
 const chartConfig = {
   low: {
     label: "Low Severity",
-    color: "hsl(142, 71%, 45%)", // Green for Low severity
+    color: "hsl(142, 71%, 45%)",
   },
   medium: {
     label: "Medium Severity",
-    color: "hsl(24, 94%, 50%)", // Orange for Medium severity
+    color: "hsl(24, 94%, 50%)",
   },
   high: {
     label: "High Severity",
-    color: "hsl(0, 72%, 51%)", // Red for High severity
+    color: "hsl(0, 72%, 51%)",
+  },
+  veryHigh: {
+    label: "Very High Severity",
+    color: "hsl(0, 100%, 35%)",
   },
 } satisfies ChartConfig
 
 export function ChartRadialStacked() {
-  const totalAssessments = chartData[0].low + chartData[0].medium + chartData[0].high
+  const [assessments, setAssessments] = useState<Assessment[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchAssessments = async () => {
+      try {
+        const data = await getAssessments()
+        setAssessments(data || [])
+      } catch (error) {
+        console.error('Error fetching assessments:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAssessments()
+  }, [])
+
+  const getRiskLevel = (score: number | null): string => {
+    if (!score) return "unknown"
+    if (score >= 25.0) return "veryHigh"
+    if (score >= 15.0) return "high"
+    if (score >= 8.0) return "medium"
+    if (score >= 5.0) return "low"
+    return "veryLow"
+  }
+
+  const processChartData = () => {
+    if (assessments.length === 0) {
+      return [{ severity: "Total", low: 0, medium: 0, high: 0, veryHigh: 0 }]
+    }
+
+    const severityCounts = {
+      low: 0,
+      medium: 0,
+      high: 0,
+      veryHigh: 0
+    }
+
+    assessments.forEach(assessment => {
+      const level = getRiskLevel(assessment.score)
+      if (level in severityCounts) {
+        severityCounts[level as keyof typeof severityCounts]++
+      }
+    })
+
+    return [{ severity: "Total", ...severityCounts }]
+  }
+
+  const chartData = processChartData()
+  const totalAssessments = assessments.length
+
+  if (loading) {
+    return (
+      <Card className="flex flex-col">
+        <CardHeader className="items-center">
+          <CardTitle>PCOS Assessments by Severity</CardTitle>
+          <CardDescription>Loading assessment data...</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center">
+          <div className="mx-auto aspect-square w-full max-w-[300px] flex items-center justify-center">
+            <div className="text-muted-foreground">Loading...</div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (assessments.length === 0) {
+    return (
+      <Card className="flex flex-col">
+        <CardHeader className="items-center">
+          <CardTitle>PCOS Assessments by Severity</CardTitle>
+          <CardDescription>No assessment data available</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-1 items-center">
+          <div className="mx-auto aspect-square w-full max-w-[300px] flex items-center justify-center">
+            <div className="text-muted-foreground text-center">
+              Complete your first assessment to see data here
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center">
         <CardTitle>PCOS Assessments by Severity</CardTitle>
-        <CardDescription>Total Assessments in 2025</CardDescription>
+        <CardDescription>Your assessment breakdown</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center ">
         <ChartContainer
@@ -110,12 +213,19 @@ export function ChartRadialStacked() {
               fill="var(--color-high)"
               className="stroke-transparent stroke-2"
             />
+            <RadialBar
+              dataKey="veryHigh"
+              stackId="a"
+              cornerRadius={5}
+              fill="var(--color-veryHigh)"
+              className="stroke-transparent stroke-2"
+            />
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-center gap-2 text-sm text-center">
         <div className="text-muted-foreground leading-none">
-          Showing total PCOS assessments by severity level for 2025
+          Showing your {totalAssessments} assessment{totalAssessments !== 1 ? 's' : ''} by severity level
         </div>
       </CardFooter>
     </Card>

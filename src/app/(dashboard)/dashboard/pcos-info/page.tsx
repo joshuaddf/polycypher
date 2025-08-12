@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, ExternalLink, ExternalLinkIcon, Heart, Stethoscope } from "lucide-react"
 import Link from "next/link"
 import { pcosInfo, trustedResources } from "@/app/utils/data";
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react"
 
@@ -14,39 +14,31 @@ const StudiesPage = () => {
   const titleRef = useRef(null);
   const paraRef = useRef(null);
 
-  useGSAP(() => {
-    if (!titleRef.current) return;
-    if (!paraRef.current) return;
+  useEffect(() => {
+    const timeline = gsap.timeline();
 
-    // Set initial states
-    gsap.set(titleRef.current, { clipPath: "inset(100% 0 0 0)" });
-    gsap.set(paraRef.current, { opacity: 0, y: 30 });
-
-    // Create timeline for coordinated animations
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: titleRef.current,
-        start: "top 80%",
-        end: "top 30%",
-        scrub: 1,
-      },
+    timeline.to(".title", {
+      duration: 1,
+      y: 0,
+      opacity: 1,
+      ease: "power2.out"
     });
 
-    // Add animations to timeline
-    tl.to(titleRef.current, {
-      clipPath: "inset(0% 0 0 0)",
-      duration: 1
-    })
-    .to(paraRef.current, {
-      opacity: 1,
+    timeline.to(".paragraph", {
+      duration: 0.8,
       y: 0,
-      duration: 0.8
-    }); // Start paragraph animation 0.5 seconds before title animation ends
+      opacity: 1,
+      ease: "power2.out"
+    }, "-=0.5");
 
-    return () => {
-      tl.kill();
-    }
-  }, [])
+    timeline.to(".card", {
+      duration: 0.6,
+      y: 0,
+      opacity: 1,
+      stagger: 0.1,
+      ease: "power2.out"
+    }, "-=0.3");
+  }, []);
 
   const getCategoryIcon = (index: number) => {
     const icons = [<Stethoscope className="h-4 w-4" />, <Heart className="h-4 w-4" />, <BookOpen className="h-4 w-4" />]

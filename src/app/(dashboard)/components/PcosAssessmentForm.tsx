@@ -9,23 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { saveAssessment, PcosFormData } from "@/lib/services/assessmentService";
 import { Plus } from "lucide-react";
-import { useState } from "react";
-
-// Interfaces and weights remain unchanged
-interface PcosFormData {
-  pcos: "Yes" | "No" | "";
-  follicleR: string;
-  follicleL: string;
-  skinDarkening: "Yes" | "No" | "";
-  hairGrowth: "Yes" | "No" | "";
-  weightGain: "Yes" | "No" | "";
-  cycle: "Regular" | "Irregular" | "";
-  fastFood: "Yes" | "No" | "";
-  pimples: "Yes" | "No" | "";
-  amh: string;
-  weight: string;
-}
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 interface PcosWeights {
   pcos: number;
@@ -70,6 +58,7 @@ const weights: PcosWeights = {
 };
 
 const PcosAssessmentForm = () => {
+  const { user, isAuthenticated, isLoading } = useAuth();
   const [formData, setFormData] = useState<PcosFormData>({
     pcos: "",
     follicleR: "",
@@ -83,6 +72,8 @@ const PcosAssessmentForm = () => {
     amh: "",
     weight: "",
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSavedData, setLastSavedData] = useState<PcosFormData | null>(null);
 
   const getNumericalData = (data: PcosFormData): NumericalPcosData => {
     return {
@@ -110,12 +101,74 @@ const PcosAssessmentForm = () => {
     return score.toFixed(2);
   };
 
-  const handleSubmit = (e: React.FormEvent): void => {
-    e.preventDefault();
-    console.log("Form submitted with data:", formData); // Debugging
-    const score = calculateScore(formData);
-    alert(`Your PCOS assessment score is: ${score}`);
+  const saveAssessmentData = async (data: PcosFormData, autoSave = false) => {
+    if (!isAuthenticated || !user) {
+      if (autoSave) return;
+      toast.error("Please log in to save your assessment");
+      return;
+    }
+
+    if (lastSavedData && JSON.stringify(data) === JSON.stringify(lastSavedData)) {
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const score = calculateScore(data);
+      await saveAssessment(data, score);
+      setLastSavedData(data);
+      if (!autoSave) {
+        toast.success("Assessment saved successfully!");
+      }
+    } catch (error) {
+      console.error("Error saving assessment:", error);
+      if (!autoSave) {
+        toast.error("Failed to save assessment");
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const hasData = Object.values(formData).some(value => value !== "");
+      if (hasData) {
+        saveAssessmentData(formData, true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [formData]);
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    
+    if (!isAuthenticated || !user) {
+      toast.error("Please log in to submit your assessment");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const score = calculateScore(formData);
+      await saveAssessment(formData, score);
+      toast.success(`Assessment submitted successfully! Your PCOS assessment score is: ${score}`);
+    } catch (error) {
+      console.error("Error submitting assessment:", error);
+      toast.error("Failed to submit assessment");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const updateFormData = (field: keyof PcosFormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-32">Loading...</div>;
+  }
 
   return (
     <div className="h-[60vh] flex flex-col">
@@ -128,9 +181,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.pcos}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, pcos: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("pcos", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -150,7 +201,7 @@ const PcosAssessmentForm = () => {
                 type="number"
                 id="follicleR"
                 value={formData.follicleR}
-                onChange={(e) => setFormData({ ...formData, follicleR: e.target.value })}
+                onChange={(e) => updateFormData("follicleR", e.target.value)}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -162,7 +213,7 @@ const PcosAssessmentForm = () => {
                 type="number"
                 id="follicleL"
                 value={formData.follicleL}
-                onChange={(e) => setFormData({ ...formData, follicleL: e.target.value })}
+                onChange={(e) => updateFormData("follicleL", e.target.value)}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -171,9 +222,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.skinDarkening}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, skinDarkening: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("skinDarkening", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -190,9 +239,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.hairGrowth}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, hairGrowth: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("hairGrowth", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -209,9 +256,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.weightGain}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, weightGain: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("weightGain", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -228,9 +273,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.cycle}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, cycle: value as "Regular" | "Irregular" })
-                }
+                onValueChange={(value) => updateFormData("cycle", value as "Regular" | "Irregular")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -247,9 +290,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.fastFood}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, fastFood: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("fastFood", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -266,9 +307,7 @@ const PcosAssessmentForm = () => {
               </label>
               <Select
                 value={formData.pimples}
-                onValueChange={(value) =>
-                  setFormData({ ...formData, pimples: value as "Yes" | "No" })
-                }
+                onValueChange={(value) => updateFormData("pimples", value as "Yes" | "No")}
               >
                 <SelectTrigger className="w-1/3">
                   <SelectValue placeholder="Select" />
@@ -289,7 +328,7 @@ const PcosAssessmentForm = () => {
                 id="amh"
                 step="0.1"
                 value={formData.amh}
-                onChange={(e) => setFormData({ ...formData, amh: e.target.value })}
+                onChange={(e) => updateFormData("amh", e.target.value)}
               />
             </div>
             <div className="flex items-center justify-between">
@@ -302,21 +341,28 @@ const PcosAssessmentForm = () => {
                 id="weight"
                 step="0.1"
                 value={formData.weight}
-                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                onChange={(e) => updateFormData("weight", e.target.value)}
               />
             </div>
           </div>
         </form>
       </ScrollArea>
-      {/* Sticky Footer for Buttons */}
       <div className="sticky bottom-0 bg-background p-4 border-t">
-        <div className="flex justify-end gap-4 w-full">
-          <Button type="submit" form="pcos-form">Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline" type="button">
-              Cancel
+        <div className="flex justify-between items-center w-full">
+          <div className="text-sm text-muted-foreground">
+            {isSaving && "Saving..."}
+            {!isAuthenticated && "Please log in to save your assessment"}
+          </div>
+          <div className="flex gap-4">
+            <Button type="submit" form="pcos-form" disabled={isSaving || !isAuthenticated}>
+              {isSaving ? "Saving..." : "Submit"}
             </Button>
-          </DrawerClose>
+            <DrawerClose asChild>
+              <Button variant="outline" type="button">
+                Cancel
+              </Button>
+            </DrawerClose>
+          </div>
         </div>
       </div>
     </div>

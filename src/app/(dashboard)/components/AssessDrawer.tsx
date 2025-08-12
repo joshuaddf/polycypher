@@ -18,25 +18,30 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import PcosAssessmentForm from "./PcosAssessmentForm";
 
 const AssessDrawer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      {/* Desktop button - normal flow */}
-      <Drawer>
-        <DrawerTrigger className="bg-foreground text-background px-3 py-1 rounded-sm gap-2 items-center hidden md:flex">
-          <Plus size={17} />Assess
-        </DrawerTrigger>
-        <DrawerContent>
-          <ContentWrapper className="max-w-sm">
+      <div className="hidden md:block">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              New Assessment
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>PCOS Assessment</DrawerTitle>
-              <DrawerDescription>Fill out the form to assess PCOS risk.</DrawerDescription>
+              <DrawerDescription>
+                Complete your PCOS assessment to track your symptoms and health metrics.
+              </DrawerDescription>
             </DrawerHeader>
             <PcosAssessmentForm />
-          </ContentWrapper>
-        </DrawerContent>
-      </Drawer>
+          </DrawerContent>
+        </Drawer>
+      </div>
 
-      {/* Mobile floating button */}
       <div className="md:hidden fixed bottom-6 right-6 z-50">
         <Drawer>
           <DrawerTrigger className="bg-foreground text-background px-4 py-3 rounded-full gap-2 items-center flex shadow-lg hover:shadow-xl transition-shadow">
