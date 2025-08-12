@@ -124,7 +124,7 @@ A comprehensive web application for PCOS (Polycystic Ovary Syndrome) assessment 
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, React, TypeScript
+- **Frontend**: Next.js 15, React, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: Kinde Auth
