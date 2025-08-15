@@ -38,9 +38,9 @@ export const howItWorks = [
       "Answer questions about your menstrual history, symptoms, and lifestyle factors",
   },
   {
-    title: "AI Analysis",
+    title: "Data Checking",
     description:
-      "Our advanced algorithms analyze your data against clinical patterns",
+      "Our simple processes check your data against known physical patterns.",
   },
   {
     title: "Get Results",

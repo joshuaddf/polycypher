@@ -100,7 +100,7 @@ const StudiesPage = () => {
               <div className="text-left w-full py-4 md:w-[50%] lg:w-1/3 text-xl">
                 <div className="flex flex-col items-start justify-center w-full mx-auto">
                   <div className="flex gap-2 mb-4">
-                    <span className="text-lg font-bold">The symptom of PCOS may include:</span>
+                    <span className="text-lg font-bold">The symptoms of PCOS may include:</span>
                   </div>
                   <ul className="w-full lg:w-full py-1 md:w-[50%] text-base opacity-75 space-y-2">
                     {pcosInfo.symptoms.map((symptom, index) => (

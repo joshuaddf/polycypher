@@ -42,7 +42,9 @@ export const getAssessments = async () => {
     const response = await fetch('/api/assessment');
     
     if (!response.ok) {
-      throw new Error('Failed to fetch assessments');
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.error || `HTTP ${response.status}: ${response.statusText}`;
+      throw new Error(`Failed to fetch assessments: ${errorMessage}`);
     }
 
     const data = await response.json();

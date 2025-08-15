@@ -27,7 +27,7 @@ const Navbar = () => {
       <NavbarWrapper className='flex justify-between items-center w-full px-3'>
         <div className="flex justify-between items-center gap-4">
           <span>
-            <Link href="/" className='text-lg'>Logo</Link>
+            <Link href="/" className='text-lg font-black font-quicksand'>PolyCypher</Link>
           </span>
           <span className='hidden md:px-20 lg:px-32 md:block'>|</span>
           <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">

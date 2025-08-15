@@ -29,14 +29,29 @@ export function DeleteDialog() {
       return;
     }
 
+    if (!confirm("Are you absolutely sure? This action cannot be undone and will permanently delete your account and all data.")) {
+      return;
+    }
+
     setIsDeleting(true);
     try {
       await deleteUserAccount();
       toast.success("Account deleted successfully");
-      window.location.href = "/api/auth/logout";
+      
+      setIsOpen(false);
+      
+      setTimeout(() => {
+        window.location.href = "/api/auth/logout";
+      }, 1000);
+      
     } catch (error) {
       console.error("Error deleting account:", error);
-      toast.error("Failed to delete account");
+      
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to delete account. Please try again.");
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -66,51 +81,50 @@ export function DeleteDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleDeleteAccount}>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="confirmation" className="block text-sm font-medium mb-2">
-                Type "DELETE" to confirm
-              </label>
-              <input
-                id="confirmation"
-                type="text"
-                value={confirmationText}
-                onChange={(e) => setConfirmationText(e.target.value)}
-                placeholder="DELETE"
-                className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
-                disabled={isDeleting}
-              />
-            </div>
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="confirmation" className="block text-sm font-medium mb-2">
+              Type "DELETE" to confirm
+            </label>
+            <input
+              id="confirmation"
+              type="text"
+              value={confirmationText}
+              onChange={(e) => setConfirmationText(e.target.value)}
+              placeholder="DELETE"
+              className="w-full px-3 py-2 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+              disabled={isDeleting}
+            />
           </div>
+        </div>
 
-          <DialogFooter className="mt-6">
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isDeleting}
-              >
-                Cancel
-              </Button>
-            </DialogClose>
+        <DialogFooter className="mt-6">
+          <DialogClose asChild>
             <Button
-              type="submit"
-              variant="destructive"
-              disabled={isDeleting || confirmationText !== "DELETE"}
-              className="min-w-[80px]"
+              type="button"
+              variant="outline"
+              disabled={isDeleting}
             >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Deleting...
-                </>
-              ) : (
-                "Delete Account"
-              )}
+              Cancel
             </Button>
-          </DialogFooter>
-        </form>
+          </DialogClose>
+          <Button
+            type="button"
+            variant="destructive"
+            disabled={isDeleting || confirmationText !== "DELETE"}
+            className="min-w-[80px]"
+            onClick={handleDeleteAccount}
+          >
+            {isDeleting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Deleting...
+              </>
+            ) : (
+              "Delete Account"
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

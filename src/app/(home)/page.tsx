@@ -1,6 +1,7 @@
 'use client';
 import { howItWorks, SecurityInfo } from '../utils/data';
 import { ContentWrapper } from '../components/Wrapper';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -31,7 +32,7 @@ export default function Home() {
               Understand Your PCOS Risk Today.
             </h1>
             <p className="text-center text-base w-[85%] md:w-[50%] lg:w-1/3 opacity-75">
-              Our platform uses advanced analytics to assess your symptoms and provide clear, actionable insights to manage PCOS effectively.
+              Our platform checks your symptoms using smart calculations and gives you clear scores to help you manage PCOS.
             </p>
           </div>
         </ContentWrapper>
@@ -40,11 +41,19 @@ export default function Home() {
       <section>
         <ContentWrapper className="w-full mt-[15rem]">
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
-            <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
+            <div className="relative flex items-center justify-center w-full h-60 md:h-[60vh] lg:h-[100vh] mx-auto border border-accent rounded-sm">
+              <Image
+                className="rounded-md "
+                src={"/images/dashboard-design.jpg"}
+                fill
+                alt="dasboard image"
+                priority
+              />
+            </div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
               <h2 className="text-3xl md:text-4xl lg:text-5xl md:w-[47%] text-left font-black">About this project.</h2>
               <p className="text-left w-[85%] md:w-[50%] lg:w-1/3 text-base opacity-75">
-                Developed in collaboration with reproductive health specialists, our platform combines clinical expertise with machine learning to help women identify PCOS symptoms early and seek appropriate medical care.
+                Developed with reproductive health experts, our platform combines physical health insights with advanced analytics to help women identify PCOS symptoms early and seek appropriate medical care.
               </p>
             </div>
           </div>
@@ -60,7 +69,15 @@ export default function Home() {
       <section>
         <ContentWrapper className="w-full mt-[10rem] md:mt-[25rem]">
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
-            <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
+            <div className="relative flex items-center justify-center w-full h-60 md:h-[60vh] lg:h-[100vh] mx-auto border border-accent rounded-sm">
+              <Image
+                className="rounded-md object-center"
+                src={"/images/assessment.png"}
+                fill
+                alt="dasboard image"
+                priority
+              />
+            </div>
             <div className="flex flex-col md:flex-row items-start justify-center md:justify-between gap-4 mt-8">
               <h2 className="text-4xl md:text-5xl lg:text-6xl md:w-[47%] text-left font-black">How it works.</h2>
               <div className="text-left w-[85%] py-4 md:w-[50%] lg:w-1/3 text-xl">
@@ -85,7 +102,7 @@ export default function Home() {
         <ContentWrapper>
           <div className="flex flex-col items-start justify-center gap-4">
             <h2 className='text-5xl md:text-5xl lg:text-9xl font-bold'>80%</h2>
-            <p className='text-base md:w-[50%] lg:w-1/3 text-left opacity-75'>Our model achieves 80% accuracy in detecting PCOS symptoms, validated through extensive clinical studies and peer-reviewed research.</p>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-left opacity-75'>By calculating patterns from your symptom data, we can detect PCOS with 80% accuracy — confirmed through real-world testing and trusted research.</p>
           </div>
         </ContentWrapper>
       </section>
@@ -94,7 +111,7 @@ export default function Home() {
         <ContentWrapper>
           <div className="flex flex-col items-center justify-center gap-4">
             <h2 className='text-4xl md:text-5xl lg:text-6xl'>Feeling skeptical?</h2>
-            <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-75'>Our assessment is based on peer-reviewed research and validated clinical criteria used by healthcare professionals worldwide.</p>
+            <p className='text-base md:w-[50%] lg:w-1/3 text-center opacity-75'>Our assessment uses carefully calculated criteria trusted by healthcare professionals worldwide, backed by peer-reviewed research.</p>
           </div>
         </ContentWrapper>
       </section>

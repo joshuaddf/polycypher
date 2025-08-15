@@ -17,6 +17,14 @@ export const deleteUserAccount = async () => {
     return data;
   } catch (error) {
     console.error('Error deleting account:', error);
-    throw error;
+
+    if (error instanceof Error) {
+      if (error.message.includes('network') || error.message.includes('fetch')) {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
+      throw error;
+    }
+    
+    throw new Error('An unexpected error occurred. Please try again.');
   }
 };

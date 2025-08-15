@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidateDashboardPaths } from "@/lib/utils/revalidation";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -25,6 +26,8 @@ export async function GET() {
         }
       });
     }
+
+    revalidateDashboardPaths();
 
     return NextResponse.json({ user: dbUser });
 

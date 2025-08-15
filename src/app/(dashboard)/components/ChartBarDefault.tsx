@@ -156,7 +156,7 @@ export function PCOSChart() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="severity" fill="var(--color-severity)" radius={8} />
+            <Bar dataKey="severity" fill={chartConfig.severity.color} radius={8} />
           </BarChart>
         </ChartContainer>
       </CardContent>

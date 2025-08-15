@@ -14,6 +14,7 @@ import { saveAssessment, PcosFormData } from "@/lib/services/assessmentService";
 import { Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { useRevalidation } from "@/lib/hooks/useRevalidation";
 
 interface PcosWeights {
   pcos: number;
@@ -59,6 +60,7 @@ const weights: PcosWeights = {
 
 const PcosAssessmentForm = () => {
   const { user, isAuthenticated, isLoading } = useAuth();
+  const { refreshDashboard } = useRevalidation();
   const [formData, setFormData] = useState<PcosFormData>({
     pcos: "",
     follicleR: "",
@@ -72,8 +74,7 @@ const PcosAssessmentForm = () => {
     amh: "",
     weight: "",
   });
-  const [isSaving, setIsSaving] = useState(false);
-  const [lastSavedData, setLastSavedData] = useState<PcosFormData | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getNumericalData = (data: PcosFormData): NumericalPcosData => {
     return {
@@ -101,45 +102,21 @@ const PcosAssessmentForm = () => {
     return score.toFixed(2);
   };
 
-  const saveAssessmentData = async (data: PcosFormData, autoSave = false) => {
-    if (!isAuthenticated || !user) {
-      if (autoSave) return;
-      toast.error("Please log in to save your assessment");
-      return;
-    }
+  // Auto-save functionality removed to prevent duplicate assessments
 
-    if (lastSavedData && JSON.stringify(data) === JSON.stringify(lastSavedData)) {
-      return;
-    }
+  // Auto-save disabled to prevent duplicate assessments
+  // useEffect(() => {
+  //   if (isSubmitting) return;
+  //   
+  //   const timeoutId = setTimeout(() => {
+  //     const hasData = Object.values(formData).some(value => value !== "");
+  //     if (hasData) {
+  //       saveAssessmentData(formData, true);
+  //     }
+  //   }, 2000);
 
-    setIsSaving(true);
-    try {
-      const score = calculateScore(data);
-      await saveAssessment(data, score);
-      setLastSavedData(data);
-      if (!autoSave) {
-        toast.success("Assessment saved successfully!");
-      }
-    } catch (error) {
-      console.error("Error saving assessment:", error);
-      if (!autoSave) {
-        toast.error("Failed to save assessment");
-      }
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const hasData = Object.values(formData).some(value => value !== "");
-      if (hasData) {
-        saveAssessmentData(formData, true);
-      }
-    }, 2000);
-
-    return () => clearTimeout(timeoutId);
-  }, [formData]);
+  //   return () => clearTimeout(timeoutId);
+  // }, [formData, isSubmitting]);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -149,21 +126,37 @@ const PcosAssessmentForm = () => {
       return;
     }
 
-    setIsSaving(true);
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
       const score = calculateScore(formData);
       await saveAssessment(formData, score);
       toast.success(`Assessment submitted successfully! Your PCOS assessment score is: ${score}`);
+      
+      // Assessment submitted successfully
+      
+      refreshDashboard();
     } catch (error) {
       console.error("Error submitting assessment:", error);
       toast.error("Failed to submit assessment");
     } finally {
-      setIsSaving(false);
+      setIsSubmitting(false);
     }
   };
 
   const updateFormData = (field: keyof PcosFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const newData = { ...prev, [field]: value };
+      
+      if (isSubmitting) {
+        setIsSubmitting(false);
+      }
+      
+      return newData;
+    });
   };
 
   if (isLoading) {
@@ -173,7 +166,7 @@ const PcosAssessmentForm = () => {
   return (
     <div className="h-[60vh] flex flex-col">
       <ScrollArea className="flex-1 overflow-auto">
-        <form id="pcos-form" onSubmit={handleSubmit} className="space-y-4 p-4">
+        <form id="pcos-form" onSubmit={handleSubmit} className="space-y-4 p-4 max-w-2xl mx-auto">
           <div className="space-y-4 pb-6">
             <div className="flex items-center justify-between">
               <label htmlFor="pcos" className="block text-sm font-medium">
@@ -207,7 +200,7 @@ const PcosAssessmentForm = () => {
             <div className="flex items-center justify-between">
               <label htmlFor="follicleL" className="block text-sm font-medium">
                 Follicle Number (Left)
-              </label>
+              </label>  
               <Input
                 className="w-1/3"
                 type="number"
@@ -350,12 +343,12 @@ const PcosAssessmentForm = () => {
       <div className="sticky bottom-0 bg-background p-4 border-t">
         <div className="flex justify-between items-center w-full">
           <div className="text-sm text-muted-foreground">
-            {isSaving && "Saving..."}
+            {isSubmitting && "Submitting..."}
             {!isAuthenticated && "Please log in to save your assessment"}
           </div>
           <div className="flex gap-4">
-            <Button type="submit" form="pcos-form" disabled={isSaving || !isAuthenticated}>
-              {isSaving ? "Saving..." : "Submit"}
+            <Button type="submit" form="pcos-form" disabled={isSubmitting || !isAuthenticated}>
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
             <DrawerClose asChild>
               <Button variant="outline" type="button">

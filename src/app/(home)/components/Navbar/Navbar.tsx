@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { LogoutLink, RegisterLink } from '@kinde-oss/kinde-auth-nextjs/components'
 import { NavbarWrapper } from '@/app/components/Wrapper'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 
 const Navbar = () => {
 
@@ -15,7 +15,7 @@ const Navbar = () => {
             <NavbarWrapper className='flex justify-between items-center w-full px-3'>
                 <div className="flex justify-between items-center gap-4">
                     <span>
-                        <Link href="/" className='text-lg'>Logo</Link>
+                        <Link href="/" className='text-lg font-quicksand font-black'>PolyCypher</Link>
                     </span>
                     <span className='hidden md:px-20 lg:px-32 md:block'>|</span>
                     <div className="hidden md:flex flex-col items-start justify-end text-xl pt-5">

@@ -49,25 +49,47 @@ interface Assessment {
 }
 
 const ProfilePage = () => {
-  const { getUser } = useKindeBrowserClient();
+  const { getUser, isAuthenticated, isLoading: authLoading } = useKindeBrowserClient();
   const user = getUser();
   const [assessments, setAssessments] = useState<Assessment[]>([])
   const [loading, setLoading] = useState(true)
+  const [dbUser, setDbUser] = useState<any>(null)
 
   useEffect(() => {
-    const fetchAssessments = async () => {
+    const fetchData = async () => {
+      if (!isAuthenticated || !user?.id) {
+        console.log('Profile: Waiting for user authentication...', { isAuthenticated, userId: user?.id })
+        return
+      }
+
+      console.log('Profile: User authenticated, fetching data...', { userId: user.id })
+
       try {
-        const data = await getAssessments()
-        setAssessments(data || [])
+        console.log('Profile: Fetching assessments...')
+        const assessmentData = await getAssessments()
+        console.log('Profile: Assessments fetched successfully:', assessmentData?.length || 0)
+        setAssessments(assessmentData || [])
+        
+        console.log('Profile: Fetching user data...')
+        const response = await fetch('/api/user')
+        if (response.ok) {
+          const userData = await response.json()
+          console.log('Profile: User data fetched successfully:', userData.user?.id)
+          setDbUser(userData.user)
+        } else {
+          console.error('Profile: Failed to fetch user data:', response.status, response.statusText)
+        }
       } catch (error) {
-        console.error('Error fetching assessments:', error)
+        console.error('Profile: Error fetching data:', error)
+        setAssessments([])
+        setDbUser(null)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchAssessments()
-  }, [])
+    fetchData()
+  }, [user?.id, isAuthenticated])
 
   const getRiskLevel = (score: number | null): string => {
     if (!score) return "No Score"
@@ -112,6 +134,14 @@ const ProfilePage = () => {
     })
   }
 
+  const getMemberSinceDate = (): string => {
+    if (!dbUser?.createdAt) return "Loading..."
+    return new Date(dbUser.createdAt).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long'
+    })
+  }
+
   const healthMetrics = {
     lastAssessment: getLatestAssessmentDate(),
     totalAssessments: assessments.length,
@@ -127,6 +157,35 @@ const ProfilePage = () => {
     riskStatus: getLatestRiskLevel(),
     nextCheckup: "5 days"
   };
+
+  if (authLoading || loading) {
+    return (
+      <ContentWrapper className='mt-20'>
+        <div className="container mx-auto">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading your profile...</p>
+            </div>
+          </div>
+        </div>
+      </ContentWrapper>
+    )
+  }
+
+  if (!isAuthenticated || !user?.id) {
+    return (
+      <ContentWrapper className='mt-20'>
+        <div className="container mx-auto">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <p className="text-muted-foreground">Please log in to view your profile.</p>
+            </div>
+          </div>
+        </div>
+      </ContentWrapper>
+    )
+  }
 
   return (
     <ContentWrapper className='mt-20'>
@@ -144,7 +203,7 @@ const ProfilePage = () => {
                     alt="Profile Picture"
                     width={120}
                     height={120}
-                    className="rounded-full border-4 border-background shadow-lg"
+                    className="rounded-full border border-muted-foreground"
                   />
                 </div>
                 <CardTitle className="text-xl">
@@ -159,7 +218,7 @@ const ProfilePage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Member since</span>
-                    <span className="text-sm font-medium">January 2024</span>
+                    <span className="text-sm font-medium">{getMemberSinceDate()}</span>
                   </div>
                 </div>
               </CardContent>

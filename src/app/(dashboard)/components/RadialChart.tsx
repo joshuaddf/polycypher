@@ -196,34 +196,49 @@ export function ChartRadialStacked() {
               dataKey="low"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-low)"
+              fill={chartConfig.low.color}
               className="stroke-transparent stroke-2"
             />
             <RadialBar
               dataKey="medium"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-medium)"
+              fill={chartConfig.medium.color}
               className="stroke-transparent stroke-2"
             />
             <RadialBar
               dataKey="high"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-high)"
+              fill={chartConfig.high.color}
               className="stroke-transparent stroke-2"
             />
             <RadialBar
               dataKey="veryHigh"
               stackId="a"
               cornerRadius={5}
-              fill="var(--color-veryHigh)"
+              fill={chartConfig.veryHigh.color}
               className="stroke-transparent stroke-2"
             />
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-center gap-2 text-sm text-center">
+        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-4">
+          {Object.entries(chartConfig).map(([key, config]) => {
+            const count = chartData[0][key as keyof typeof chartData[0]] as number;
+            return (
+              <div key={key} className="flex items-center gap-2 text-xs">
+                <div 
+                  className="w-3 h-3 rounded-full" 
+                  style={{ backgroundColor: config.color }}
+                />
+                <span className="text-muted-foreground">{config.label}</span>
+                <span className="font-medium">{count}</span>
+              </div>
+            );
+          })}
+        </div> */}
         <div className="text-muted-foreground leading-none">
           Showing your {totalAssessments} assessment{totalAssessments !== 1 ? 's' : ''} by severity level
         </div>

@@ -6,6 +6,7 @@
 @theme {
   --font-geist-mono: var(--font-geist-mono);
   --font-geist-sans: var(--font-geist-sans);
+  --font-quicksand: var(--font-quicksand);
 /* 
   --color-primary: #F6F930;
   --color-black: #000000;

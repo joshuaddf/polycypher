@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidateDashboardPaths } from "@/lib/utils/revalidation";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -78,6 +79,9 @@ export async function POST(request: NextRequest) {
 
     console.log("POST /api/assessment - Assessment created successfully:", assessment.id);
 
+    // Revalidate all dashboard paths to ensure fresh data
+    revalidateDashboardPaths();
+
     return NextResponse.json({ 
       success: true, 
       assessment,
@@ -123,6 +127,9 @@ export async function GET() {
     });
 
     console.log("GET /api/assessment - Found assessments:", assessments.length, "assessments");
+
+    // Revalidate dashboard paths to ensure data consistency
+    revalidateDashboardPaths();
 
     return NextResponse.json({ assessments });
 

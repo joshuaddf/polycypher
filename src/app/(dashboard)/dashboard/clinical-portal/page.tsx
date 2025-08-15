@@ -13,8 +13,7 @@ import {
 import { cn } from "@/lib/utils"
 import { PCOSChart } from "../../components/ChartBarDefault"
 import { ChartRadialStacked } from "../../components/RadialChart"
-import { AssessmentDrawer } from "../../components/AssessmentDrawer"
-import { AssessmentPopover } from "../../components/AssessmentPopover"
+import { AssessmentTableRow } from "../../components/AssessmentTableRow"
 import React, { useState, useEffect } from "react"
 import DashboardNav from "../../components/DashboardNav"
 import { useAuth } from "@/lib/hooks/useAuth"
@@ -113,6 +112,8 @@ const page = () => {
     additionalNotes: `Score: ${assessment.score?.toFixed(2) || "N/A"}, Weight: ${assessment.weight || "N/A"}kg, Follicles R: ${assessment.follicleR || "N/A"}, L: ${assessment.follicleL || "N/A"}`
   }))
 
+
+
   if (loading) {
     return (
       <>
@@ -191,10 +192,7 @@ const page = () => {
                     </TableRow>
                   ) : (
                     transformedAssessments.map((assessment, index) => (
-                      <React.Fragment key={assessment.id}>
-                        <AssessmentPopover assessment={assessment} index={index} />
-                        <AssessmentDrawer assessment={assessment} index={index} />
-                      </React.Fragment>
+                      <AssessmentTableRow key={assessment.id} assessment={assessment} index={index} />
                     ))
                   )}
                 </TableBody>
