@@ -121,10 +121,10 @@ const PcosAssessmentForm = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     
-    if (!isAuthenticated || !user) {
-      toast.error("Please log in to submit your assessment");
-      return;
-    }
+    // if (!isAuthenticated || !user) {
+    //   toast.error("Please log in to submit your assessment");
+    //   return;
+    // }
 
     if (isSubmitting) {
       return;
@@ -136,7 +136,6 @@ const PcosAssessmentForm = () => {
       await saveAssessment(formData, score);
       toast.success(`Assessment submitted successfully! Your PCOS assessment score is: ${score}`);
       
-      // Assessment submitted successfully
       
       refreshDashboard();
     } catch (error) {
@@ -344,7 +343,7 @@ const PcosAssessmentForm = () => {
         <div className="flex justify-between items-center w-full">
           <div className="text-sm text-muted-foreground">
             {isSubmitting && "Submitting..."}
-            {!isAuthenticated && "Please log in to save your assessment"}
+            {/* {!isAuthenticated && "Please log in to save your assessment"} */}
           </div>
           <div className="flex gap-4">
             <Button type="submit" form="pcos-form" disabled={isSubmitting || !isAuthenticated}>

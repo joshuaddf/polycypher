@@ -26,8 +26,16 @@ export default function Home() {
 
       <section>
         <ContentWrapper className="w-full mt-[10rem]">
-          <div className="bg-white flex items-center justify-center w-full h-[40rem] mx-auto"></div>
-          <div className="flex flex-col items-center justify-center gap-4 mt-[15rem]">
+            <div className="relative flex items-center justify-center w-full h-60 md:h-[60vh] lg:h-[87vh] mx-auto border border-accent rounded-xs">
+              <Image
+                className="rounded-xs object-center"
+                src={"/images/women.jpg"}
+                fill
+                alt="dasboard image"
+                priority
+              />
+            </div>
+          <div className="flex flex-col items-center justify-center gap-4 mt-[10rem]">
             <h1 className="text-4xl lg:text-5xl md:w-[47%] text-center font-black">
               Understand Your PCOS Risk Today.
             </h1>
@@ -39,7 +47,7 @@ export default function Home() {
       </section>
 
       <section>
-        <ContentWrapper className="w-full mt-[15rem]">
+        <ContentWrapper className="w-full mt-[10rem]">
           <div className="w-full mx-auto flex flex-col items-center justify-center gap-4">
             <div className="relative flex items-center justify-center w-full h-60 md:h-[60vh] lg:h-[100vh] mx-auto border border-accent rounded-sm">
               <Image
